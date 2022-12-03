@@ -1,0 +1,45 @@
+<form action="{{ url_for('signup') }}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h1 style="text-align: center; padding-bottom: 10px; color: black;">Sign up</h1>
+    <div style="display: flex; flex-direction: column;">
+      <p class="hint-text">Sign up with your social media account</p>
+      <div class="form-group social-btn clearfix"
+        style="display: flex; flex-direction: row; justify-content: space-evenly;">
+        <a href="https://www.facebook.com/login/" class="btn btn-secondary facebook-btn float-left"><i
+            class="fa fa-facebook"></i>
+          Facebook</a>
+        <a href="https://twitter.com/i/flow/login" class="btn btn-secondary twitter-btn"><i
+            class="fa fa-twitter"></i> Twitter</a>
+        <a href="#" class="btn btn-secondary google-btn float-right"><i class="fa fa-google"></i> Google</a>
+      </div>
+    </div>
+    <div class="or-seperator"><b>or</b></div>
+    <!-- <p class="hint-text">Fill in this form to create your account!</p> -->
+    <div class="form-group m-1"
+      style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center;">
+      <span class="material-icons">account_circle</span>
+      {{signup.profile(class="btn")}}
+    </div>
+    <div class="form-group">
+      {{signup.username(class="form-control m-1 ",placeholder = signup.username.label.text)}}
+    </div>
+    <div class="form-group">
+      {{signup.email(class="form-control m-1",placeholder = signup.email.label.text)}}
+    </div>
+    <div class="form-group">
+      {{signup.password(class="form-control m-1",placeholder = signup.password.label.text)}}
+    </div>
+    <div class="form-group">
+      {{signup.confirm_password(class="form-control m-1",placeholder =
+      signup.confirm_password.label.text)}}
+    </div>
+    <div class="form-group m-1">
+      <label class="form-check-label"><input type="checkbox" required="required"> I accept the <a
+          href="#">Terms &amp;
+          Conditions</a></label>
+    </div>
+    <p>Create account as :
+      {{signup.role}}
+      {{signup.submit(class="btn btn-primary btn-block")}}
+    <div class="text-center">Already have an account? <a href="#login1">Sign in</a></div>
+  </form>

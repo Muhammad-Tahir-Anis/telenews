@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Follower_List</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!--Looding social media icons library  -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+        placement : 'right'
+    });
+});
+</script>
+
+  
+  </head>  
+<body>
+
+<section class="GContent">
+
+<div class="iconbar">
+            <a href="index.html"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;" tooltip-glyph="glyph-tooltip-demo" data-original-title="Home"></a>
+            <a href="/newsSummary" ><span  class="glyphicon glyphicon-globe icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="News"></span></a><br>
+            <a href="/notifications"><span class="glyphicon glyphicon-bell icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Notifications"></span></a><br>
+            <a href="/list"><span class="glyphicon glyphicon-bookmark icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="List"></span></a><br>
+            <a href="/yournewsarticles"><span class="glyphicon glyphicon-list-alt icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Your_News"></span></a><br><hr>
+            <a href="/writenews"><span class="glyphicon glyphicon-pencil icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Write"></span></a><br>
+            <img class="profile-pic" src="/static/Images/profile3.jpeg">
+ </div>
+<!-- **********end -->
+    <!-- *********************************************************************** all generlaist content show  -->
+    
+    <div class="G1">
+       <h1>Refine recommendations</h1>
+       <p style="margin-top: 10px; color: gray; margin-bottom: 30px;">Adjust recommendations by updating what you’re following.</p>
+
+      <div class="panel-heading">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Suggestions</a>
+    </h4>
+     </div>
+  
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Following</a>
+    </h4>
+</div>
+<hr>
+   <div class="panel-group" id="accordion">
+    <div class="panel panel-default" >
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body" style="border-style: none;">
+              <div class="Fformat">
+               <!-- profile icon -->
+               <div class="follow" >
+                        <div class=" mb-3">
+                            <h4 >Who to follow</h4>
+                        </div>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile1.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Ramsha Iqbal<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 60%; padding: 0">+ Follow</button>
+                          <h6 class="bio">Senior Writer, OneZero, at Telescope.</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile2.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Roshany khan<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 59%; padding: 0">+ Follow</button>
+                          <h6 class="bio">Level Sr. Writer covering Race, Culture, Politics, TV, Music. Previously.</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile3.jpeg">
+
+                          <h5 style="margin-top: 5px; float: left;">Aneesa Amir<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 61%; padding: 0">+ Follow</button>
+                          <h6 class="bio">Forthcoming book: The Movement Made Us</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile1.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Ramsha Iqbal<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 60%; padding: 0">+ Follow</button>
+                          <h6 class="bio">Senior Writer, OneZero, at Telescope.</h6>
+     
+                        </div>
+
+                         <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile1.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Ramsha Iqbal<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 60%; padding: 0">+ Follow</button>
+                          <h6 class="bio">Senior Writer, OneZero, at Telescope.</h6>
+                          <a class="followlink" href="#">See all</a>
+     
+                        </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- ******************************************************************following -->
+    <div class="panel panel-default" >
+        <div id="collapse2" class="panel-collapse collapse" >
+            <div class="panel-body" style="border-style: none;">
+                <!-- Following List -->
+                     <div class="follow" >
+                        <div class=" mb-3">
+                            <h4 >4 Writers</h4>
+                        </div>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile1.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Ramsha Iqbal<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 60%; padding: 0">Following</button>
+                          <h6 class="bio">Senior Writer, OneZero, at Telescope.</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile2.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Roshany khan<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 59%; padding: 0">Following</button>
+                          <h6 class="bio">Level Sr. Writer covering Race, Culture, Politics, TV, Music. Previously.</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile3.jpeg">
+
+                          <h5 style="margin-top: 5px; float: left;">Aneesa Amir<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 61%; padding: 0">Following</button>
+                          <h6 class="bio">Forthcoming book: The Movement Made Us</h6>
+     
+                        </div>
+
+                        <!-- repeated -->
+                        <br>
+                        <div class="d-flex flex-wrap m-n1">
+                          <img  src="/static/Images/profile1.jpg">
+
+                          <h5 style="margin-top: 5px; float: left;">Ramsha Iqbal<h6></h6></h5>
+                          
+                          <button id="follow-button" style=" margin-top: -2%; margin-left: 60%; padding: 0; ">Following</button>
+                          <h6 class="bio">Senior Writer, OneZero, at Telescope.</h6>
+     
+                        </div>
+                        <a class="followlink" href="FollowingList.html">See more suggestions</a>
+
+                    </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>       
+    <!-- ******* end -->
+<!-- ***********************************************************************2nd generalist tag info Start -->
+    <div class="G2" style="width: 30%; padding: 0 3px; margin-top:0px;margin-left: 71%; ">
+      <div class="G21" style="width: 90%; padding: 5%;">
+<div class="form-outline" >
+  <input style="width: 98%;  height: 40px;border-radius: 30px;margin-left: 10px; margin-bottom: 170%;" type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
+</div>
+<p style="color: gray;text-align: center;margin-bottom: 20px; font-size: 12px; margin-left: 28px;">Search Help Status Writers News Careers Privacy Terms About Knowable</p>
+
+      </div>
+</div>
+    <!-- ******* end -->
+
+  </section>
+<!-- for follow button  -->
+<script type="text/javascript">
+  $(document).ready(function(){       
+
+  $("#follow-button").click(function(){
+    if ($("#follow-button").text() == "+ Follow"){
+      // *** State Change: To Following ***      
+      // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms    
+      $("#follow-button").animate({ width: '-=10px' }, 100, 'easeInCubic', function () {});
+      
+      // then now we want the button to expand out to it's full state
+      // The left translation is to keep the button centred with it's longer width
+      $("#follow-button").animate({ width: '+=45px', left: '-=15px' }, 600, 'easeInOutBack', function () { 
+        $("#follow-button").css("color", "#fff");
+        $("#follow-button").text("Following");
+
+        // Animate the background transition from white to green. Using JQuery Color
+        $("#follow-button").animate({
+          backgroundColor: "#2EB82E",
+          borderColor: "#2EB82E"
+        }, 1000 );
+      });
+    }else{
+      
+      // *** State Change: Unfollow ***     
+      // Change the button back to it's original state
+      $("#follow-button").animate({ width: '-=25px', left: '+=15px' }, 600, 'easeInOutBack', function () { 
+        $("#follow-button").text("+ Follow");
+        $("#follow-button").css("color", "#3399FF");
+        $("#follow-button").css("background-color", "#ffffff");
+        $("#follow-button").css("border-color", "#3399FF");
+      });
+    }
+  }); 
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bookmark_List</title>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!--Looding social media icons library  -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+
+    
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+        placement : 'right'
+    });
+});
+</script>
+
+  
+  </head>  
+<body>
+
+
+
+
+<section class="GContent">
+
+{% include 'left_user_menu.html' %}
+ 
+    
+<!-- **********end -->
+
+
+    <!-- *********************************************************************** all generlaist content show  -->
+    
+    <div class="G1">
+       <h1>Your List</h1>
+      <div class="panel-heading" style="margin-top: 23px;">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Bookmarks</a>
+    </h4>
+     </div>
+  
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">News History</a>
+    </h4>
+</div>
+<hr>
+   <div class="panel-group" id="accordion">
+    <div class="panel panel-default" >
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body" style="border-style: none;">
+              <div class="Fformat">
+               <!-- profile icon -->
+
+               <h5 class="marklist" >PM Shehbaz, General Qamar Javed Bajwa discuss national security...</h5>
+
+               <a href="#" style="font-size: 20px;"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
+               <hr style="color:lightgray">
+
+               <!-- repeated -->
+
+               <h5 class="marklist" style="margin-right: 46%">WhatsApp to allow users to hide online status...</h5>
+
+               <a href="#" style="font-size: 20px; "><i class="fa fa-bookmark" aria-hidden="true"></i></a>
+               <hr style="color:lightgray">
+
+                 <!-- repeated -->
+
+                <h5 class="marklist">PM Shehbaz, General Qamar Javed Bajwa discuss national security...</h5>
+
+               <a href="#" style="font-size: 20px;"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
+               <hr style="color:lightgray">      
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+    <!-- ******************************************************************following -->
+    <div class="panel panel-default" >
+        <div id="collapse2" class="panel-collapse collapse" >
+            <div class="panel-body" style="border-style: none;">
+                <!-- newshistory List -->
+                <h5 class="marklist" style="font-weight: bold;">PM Shehbaz, General Qamar Javed Bajwa discuss national security...</h5>
+                <a href="#" style="font-size: 20px;" data-tooltip="Account Security" ><i class="fa fa-fw fa-ellipsis-h"></i></a>
+               <hr style="color:lightgray">
+
+               <!-- repeated -->
+
+                <h5 class="marklist" style="font-weight: bold; margin-right: 46%">WhatsApp to allow users to hide online status...</h5>
+                <a href="#" style="font-size: 20px;" data-tooltip="Account Security" ><i class="fa fa-fw fa-ellipsis-h"></i></a>
+               <hr style="color:lightgray">
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+    
+    <!-- ******* end -->
+
+    <!-- ***********************************************************************2nd generalist tag info Start -->
+    {% include 'right_following_menu.html' %}
+    <!-- ******* end -->
+
+  </section>
+
+
+</body>
+</html>

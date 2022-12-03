@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>YourNewsArticle</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <div class="G2" style="width: 30%; padding: 0 3px; margin-top:0px;margin-left: 70%; ">
+    <div class="G21" style="width: 90%; padding: 5%;">
+      <div class="form-outline">
+        <input style="width: 80%;  height: 40px;border-radius: 30px;margin-left: 42px; margin-bottom: 10%;"
+          type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
+      </div>
+      <img class="profilePic" src="/static/Images/profile3.jpeg">
+      <h5 class="profilename">Areeba Abbasi</h5>
+      <a style="text-align: center;margin-bottom: -2px;" href="/editprofile">Edit profile</a>
+      <hr>
+      <h4>Following</h4>
+      <div class="followingList">
+        <img src="/static/Images/p1.jpg">
+        <p>Zoya Ali</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div>
+      <br><br>
+      <div class="followingList">
+        <img src="/static/Images/p2.jpg">
+        <p>Sad Raza</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div>
+      <br><br>
+      <div class="followingList">
+        <img src="/static/Images/profile1.jpg">
+        <p>Sania Rana</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div><br><br>
+      <a style="margin-left: 19px; float: left;" href="/followerlist">See All(4)</a><br>
+
+      <hr>
+      <h4>Followers</h4>
+      <div class="followingList">
+        <img src="/static/Images/p1.jpg">
+        <p>Zoya Ali</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div>
+      <br><br>
+      <div class="followingList">
+        <img src="/static/Images/p2.jpg">
+        <p>Sad Raza</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div>
+      <br><br>
+      <div class="followingList">
+        <img src="/static/Images/profile1.jpg">
+        <p>Sania Rana</p>
+        <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+      </div><br><br>
+      <a style="margin-left: 19px; float: left;" href="/followerlist">See All(6)</a>
+      <br><br><br>
+      <p style="color: gray;text-align: left;margin-bottom: 20px; font-size: 12px;">Search Help Status Writers News
+        Careers Privacy Terms About Knowable</p>
+
+    </div>
+  </div>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+
+  <!--Looding social media icons library  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- for toolkit -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+        placement: 'right'
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <section class="GContent">
+    {% include 'left_user_menu.html' %}
+
+
+
+    <!-- **********end -->
+
+
+    <!-- *********************************************************************** all generlaist content show  -->
+
+    <div class="G1">
+      <h1>Your News Articles</h1>
+      <!-- <button class="button button2" style="width: 19%; margin-top: -46px;">Import a news</button> -->
+      <a href="/writenews"><button class="button button2" style="width: 19%; margin-top: -46px;">Write a
+          news</button></a>
+      <div class="panel-heading" style="margin-top: 23px;">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Drafts</a>
+        </h4>
+      </div>
+
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Publish</a>
+        </h4>
+      </div>
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Response</a>
+        </h4>
+      </div>
+      <hr>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body" style="border-style: none;">
+              <div class="Fformat">
+                <!-- profile icon -->
+                <h6 style="text-align: center; padding: 8% 9%; font-size: 16px;"> You have no drafts.<br><br><br>
+                  <a style="cursor: pointer;">Write</a> a news article or <a style="cursor: pointer;">read</a> on
+                  Telescope.
+                </h6>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ******************************************************************following -->
+        <div class="panel panel-default">
+          <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body" style="border-style: none;">
+              <!-- newshistory List -->
+              <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t published any public News
+                yet.</h6>
+
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div id="collapse3" class="panel-collapse collapse">
+            <div class="panel-body" style="border-style: none;">
+              <!-- newshistory List -->
+              <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t any respose yet.</h6>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ******* end -->
+
+    <!-- ***********************************************************************2nd generalist tag info Start -->
+    {% include 'right_following_menu.html' %}
+    <!-- ******* end -->
+
+  </section>
+
+
+</body>
+
+</html>

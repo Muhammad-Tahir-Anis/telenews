@@ -1,0 +1,27 @@
+<form id="login1" action="{{ url_for('login') }}" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <h1 style="text-align: center; padding-bottom: 10px; color: black;">Sign in</h1>
+    <div style="display: flex; flex-direction: column;">
+      <p class="hint-text">Sign up with your social media account</p>
+      <div class="form-group social-btn clearfix"
+        style="display: flex; flex-direction: row; justify-content: space-evenly;">
+        <a href="https://www.facebook.com/login/" class="btn btn-secondary facebook-btn float-left"><i
+            class="fa fa-facebook"></i>
+          Facebook</a>
+        <a href="https://twitter.com/i/flow/login" class="btn btn-secondary twitter-btn"><i
+            class="fa fa-twitter"></i> Twitter</a>
+        <a href="#" class="btn btn-secondary google-btn float-right"><i class="fa fa-google"></i> Google</a>
+      </div>
+    </div>
+    <div class="or-seperator"><b>or</b></div>
+    <div class="form-group">
+      {{ signin.username(class="form-control m-1", placeholder=signin.username.label.text)}}
+    </div>
+    <div class="form-group">
+      {{ signin.password(class="form-control m-1", placeholder=signin.password.label.text)}}
+    </div>
+      {{ signin.submit(class = "btn btn-primary btn-block")}}
+    <div class="text-center mt-2">
+      <a href="#">Forgot Your password?</a>
+    </div>
+  </form>

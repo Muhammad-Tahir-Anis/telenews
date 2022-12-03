@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Summary_View</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <!--Loading social media icons library  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+          placement: "right",
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <section class="GContent">
+      <div class="iconbar">
+        <a href="index.html"
+          ><img
+            class="logo"
+            src="/static/Images/navbarLogo.png"
+            style="cursor: pointer"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="Home"
+        /></a>
+        <a href="/newsSummary"
+          ><span
+            class="glyphicon glyphicon-globe icon-size"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="News"
+          ></span></a
+        ><br />
+        <a href="/notifications"
+          ><span
+            class="glyphicon glyphicon-bell icon-size"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="Notifications"
+          ></span></a
+        ><br />
+        <a href="/list"
+          ><span
+            class="glyphicon glyphicon-bookmark icon-size"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="List"
+          ></span></a
+        ><br />
+        <a href="/yournewsarticles"
+          ><span
+            class="glyphicon glyphicon-list-alt icon-size"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="Your_News"
+          ></span></a
+        ><br />
+        <hr />
+        <a href="/writenews"
+          ><span
+            class="glyphicon glyphicon-pencil icon-size"
+            tooltip-glyph="glyph-tooltip-demo"
+            data-original-title="Write"
+          ></span></a
+        ><br />
+        <img class="profile-pic" src="/static/Images/profile3.jpeg" />
+      </div>
+      <!-- **********end -->
+      <!-- *********************************************************************** all generlaist content show  -->
+      <div class="G1">
+        <br /><br />
+        <div class="AGformat">
+          <!-- name/time -->
+          <a class="time" href=""
+            ><i class="far fa-clock"></i>27 views.{{ news.created_at }}</a
+          >
+          <!-- news title -->
+          <a href="#"><h2 style="margin-top: 35px">{{ news.title }}</h2></a>
+          <a
+                              href="{{ url_for('delete_post', news_id=news.id) }}"
+           >DELETE POST</a>
+          <div class="Aimg">
+            <img
+              style="
+                width: 100%;
+                height: 50%;
+                margin-top: 5px;
+                border-radius: 0px;
+                margin-bottom: 30px;
+              "
+              src="/static/Images/pic1.jpg"
+            />
+          </div>
+          <!-- news summary -->
+          <h4 style="text-align: justify">{{ news.detail }}</h4>
+        </div>
+
+        <!-- share icons -->
+        <div class="mediabuttons">
+          <a href="#" data-tooltip="Account Security"
+            ><i class="fa fa-fw fa-ellipsis-h"></i
+          ></a>
+          <a class="active" href="#"
+            ><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a
+          >
+          <a href="#"
+            ><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a
+          >
+          <a class="active" href="#"
+            ><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a
+          >
+          <button class="translater" onclick="myFunction()">
+            TRANSLATE NEWS
+          </button>
+          <!--translater  -->
+          <div id="myDIV">
+            <p>
+              ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج کے
+              پیشہ ورانہ امور سمیت متعدد امور پر تبادلہ خیال کیا۔ ذرائع نے مزید
+              بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار اپریل
+              میں وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان میں کہا
+              گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق پیشہ ورانہ امور پر
+              تبادلہ خیال کیا گیا۔
+            </p>
+          </div>
+          <!-- Comment section news -->
+
+          <!-- <div id="ComDIV"> -->
+          <hr />
+          <br /><br />
+          <!-- Comment section news -->
+
+          <div class="com">
+            <section class="content-item" id="comments">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-7">
+                    <h2 class="pull-left" style="margin-top: -0.6%">
+                      4 Comments
+                    </h2>
+                    <form
+                      method="post"
+                      action="{{ url_for('add_comment', news_id=news.id) }}"
+                    >
+                      <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{ csrf_token() }}"
+                      />
+
+                      <fieldset>
+                        <div class="row">
+                          <div class="col-sm-3 col-lg-2 hidden-xs">
+                            <img
+                              class="img-responsive"
+                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                              alt=""
+                            />
+                          </div>
+                          <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                            <textarea
+                              class="form-control"
+                              id="message"
+                              name="comment_area"
+                              placeholder="Add a comment..."
+                              required=""
+                            ></textarea>
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-normal pull-left">
+                          Submit
+                        </button>
+                      </fieldset>
+                    </form>
+
+                    <!--                 <h3>4 Comments</h3> -->
+
+                    <!-- COMMENT 1 - START -->
+                    {% for comment in comments %} {% if not comment.parent_id and comment.report == 0 %}
+                    <div class="media">
+                      <a class="pull-left" href="#"
+                        ><img
+                          class="media-object"
+                          src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                          alt=""
+                      /></a>
+                      <div class="media-body">
+                        <h4 class="media-heading">John Doe</h4>
+                        <p>{{ comment.text }}</p>
+                        <ul
+                          class="list-unstyled list-inline media-detail pull-left"
+                        >
+                          <li><i class="far fa-clock"></i>2 d</li>
+                          <li><i class="fa fa-thumbs-up"></i>13</li>
+                        </ul>
+                        <ul
+                          class="list-unstyled list-inline media-detail pull-right"
+                        >
+                          {% for child_comment in comments %} {% if comment.id
+                          == child_comment.parent_id and child_comment.report == 0 %}
+                          <p>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD
+                            REPLY: {{ child_comment.text }}
+                          </p>
+                          {% endif %} {% endfor %}
+                          <li class="">
+                            <a
+                              href="{{ url_for('add_comment_reply', news_id=news.id, parent_id=comment.id) }}"
+                              >REPLY</a
+                            >
+                          </li>
+                          <li class="">
+                            <a
+                              href="{{ url_for('delete_comment', comment_id=comment.id) }}"
+                              >DELETE</a
+                            >
+                          </li>
+                          <li class=""><a href="{{ url_for('add_report_comment', comment_id=comment.id) }}">Report</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    {% endif %} {% endfor %}
+                    <!-- COMMENT 1 - END -->
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!-- </div> -->
+
+          <br /><br /><br />
+        </div>
+      </div>
+      <!-- ******* end -->
+      <!-- *********************************************************************** generalist tag info Start -->
+      <div class="S2" style="width: 30%; padding: 0 3px">
+        <div class="S21" style="width: 90%; padding: 5%">
+          <a href="/newsSummary"
+            ><button class="buttonN1">News Summary</button></a
+          >
+          <a href="/generalistNews"
+            ><button class="buttonA1">News Articles</button></a
+          >
+          <div class="form-outline">
+            <input
+              style="
+                width: 98%;
+                margin-left: 10px;
+                height: 40px;
+                border-radius: 30px;
+                margin-top: 14%;
+                margin-bottom: 8%;
+              "
+              type="search"
+              id="form1"
+              class="form-control"
+              placeholder="Search"
+              aria-label="Search"
+            />
+          </div>
+          <hr />
+          <div class="pb-3">
+            <div class="mb-3">
+              <h4>Categories</h4>
+            </div>
+            <div class="d-flex flex-wrap m-n1">
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Politics</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Business</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Corporate</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
+              <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Education</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Science</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Technology</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Entertainment</a
+              >
+              <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
+              <a href="" class="btn btn-sm btn-outline-secondary m-1"
+                >Lifestyle</a
+              >
+            </div>
+          </div>
+          <hr />
+          <div class="popular">
+            <div class="mb-3">
+              <h4>Popular News</h4>
+            </div>
+            <div style="color: black; text-align: left; margin-bottom: 12px">
+              <a href="">Top Best Internet Marketing Tips.</a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+              <a href="">The relationship between the current document. </a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+              <a href="">Meta-owned instant messaging app is developing.</a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+              <a href="">The relationship between the current document. </a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+              <a href="">The relationship between the current document. </a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+              <a href="">Meta-owned instant messaging app is developing.</a>
+              <hr
+                style="
+                  border: 0.1px dotted;
+                  margin-top: 7px;
+                  margin-bottom: 7px;
+                  color: lightgray;
+                "
+              />
+            </div>
+          </div>
+        </div>
+        <br /><br /><br /><br /><br />
+      </div>
+      <!-- ******* end -->
+    </section>
+    <!-- for comment section news -->
+
+    <!-- for translated news -->
+    <script>
+      function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

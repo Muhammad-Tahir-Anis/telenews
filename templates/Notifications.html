@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Notifications</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+
+  <!--Looding social media icons library  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+        placement: 'right'
+      });
+    });
+  </script>
+
+
+</head>
+
+<body>
+
+  <section class="GContent">
+
+    {% include 'left_user_menu.html' %}
+
+
+    <!-- **********end -->
+
+
+    <!-- *********************************************************************** all generlaist content show  -->
+
+    <div class="G1">
+
+      <h1>Notifications</h1>
+      <div class="panel-heading" style="margin-top: 23px;">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">All</a>
+        </h4>
+      </div>
+
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Response</a>
+        </h4>
+      </div>
+      <hr>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body" style="border-style: none;">
+              <p>aaaaaaaa</p>
+              <p>aaaaaaaa</p>
+              <div class="Fformat">
+                <!-- profile icon -->
+                <h6 style=" font-size: 14px; color: gray">You're all caught up.</h6>
+                <a style="cursor: pointer; float: right; margin-top: -20px;">Your status</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ******************************************************************following -->
+        <div class="panel panel-default">
+          <div id="collapse2" class="panel-collapse collapse">
+            <div class="panel-body" style="border-style: none;">
+              <!-- newshistory List -->
+              <p>aaaaaaaaaaa</p>
+              <p>aaaaaaaaaaa</p>
+              <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t any respose yet.</h6>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ******* end -->
+
+    <!-- ***********************************************************************2nd generalist tag info Start -->
+    {% include 'right_category_menu.html' %}
+    <!-- ******* end -->
+
+  </section>
+
+
+</body>
+
+</html>
