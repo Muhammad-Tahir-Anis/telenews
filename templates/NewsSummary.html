@@ -1,304 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>News_Summary</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+<head>
+  <title>News_Summary</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-    />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    <!-- Latest compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-      crossorigin="anonymous"
-    />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-      crossorigin="anonymous"
-    ></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
 
-    <!--Loading social media icons library  -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    />
+  <!--Loading social media icons library  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
-          placement: "right",
-        });
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+        placement: "right",
       });
-    </script>
-  </head>
-  <body>
-    <section class="GContent">
-      {%include 'left_user_menu.html'%}
-      <!-- **********end -->
-      <!-- *********************************************************************** all generlaist content show  -->
-      <div class="G1">
-        <br /><br />
-        {% for each_news in news %}
-        <div class="Gformat">
-          <!-- name/time -->
-          <a class="time" href=""
-            ><i class="far fa-clock"></i>27 views.{{ each_news.article.created_at }}</a
-          >
-          <!-- news title -->
-          <a href="{{ url_for('summary_view', news_id=each_news.id) }}"
-            ><h2>{{ each_news.title }}</h2></a
-          >
-          <!-- news summary -->
-          <h4>{{ each_news.article.description }}</h4>
+    });
+  </script>
+</head>
 
-          <!-- news image -->
+<body>
+  <section class="GContent">
+    {%include 'left_user_menu.html'%}
+    <!-- **********end -->
+    <!-- *********************************************************************** all generlaist content show  -->
+    <div class="G1">
+      <br /><br />
+      {% for each_news in news %}
+      <div class="Gformat">
+        <!-- name/time -->
+        <a class="time" href=""><i class="far fa-clock"></i>27 views.{{ each_news.article.created_at }}</a>
+        <!-- news title -->
+        <a href="{{ url_for('summary_view', news_id=each_news.id) }}">
+          <h2>{{ each_news.title }}</h2>
+        </a>
+        <!-- news summary -->
+        <h4>{{ each_news.article.description }}</h4>
 
-          <div class="Gimg"><img src="/static/Images/pic1.jpg" /></div>
+        <!-- news image -->
 
-          <!-- share icons -->
-          <div class="mediabuttons">
-            <a href="#" data-tooltip="Account Security"
-              ><i class="fa fa-fw fa-ellipsis-h"></i
-            ></a>
-            <a class="active" href="#"
-              ><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a
-            >
-            <a href="{{url_for('bookmark',news_id = each_news.id)}}"
-              ><i class="fa fa-bookmark" aria-hidden="true"></i
-              >&nbsp;BOOKMARK</a
-            >
-            <a class="active" href="#"
-              ><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a
-            >
-            <button class="translater" onclick="myFunction()">
-              TRANSLATE NEWS
-            </button>
-            <button
-              class="Comment"
-              onclick="hiFunction('ComDIV_{{ each_news.id }}')"
-            >
-              COMMENTS
-            </button>
-            <div id="myDIV">
-              <p>
-                ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج
-                کے پیشہ ورانہ امور سمیت متعدد امور پر تبادلہ خیال کیا۔ ذرائع نے
-                مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار
-                اپریل میں وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان
-                میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق پیشہ
-                ورانہ امور پر تبادلہ خیال کیا گیا۔
-              </p>
-            </div>
-            <!-- Comment section news -->
+        <div class="Gimg"><img src="/static/Images/pic1.jpg" /></div>
 
-            <div id="ComDIV_{{ each_news.id }}" style="display:none;">
-              <div class="com">
-                <section class="content-item" id="comments">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <h2 class="pull-left" style="margin-top: -0.6%">
-                          4 Comments
-                        </h2>
-                        <form
-                          method="post"
-                          action="{{ url_for('add_comment', news_id=each_news.id) }}"
-                        >
-                          <input
-                            type="hidden"
-                            name="csrf_token"
-                            value="{{ csrf_token() }}"
-                          />
+        <!-- share icons -->
+        <div class="mediabuttons">
+          <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+          <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+          <a href="{{url_for('bookmark',news_id = each_news.id)}}"><i class="fa fa-bookmark"
+              aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+          <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
+          <button class="translater" onclick="myFunction()">
+            TRANSLATE NEWS
+          </button>
+          <button class="Comment" onclick="hiFunction('ComDIV_{{ each_news.id }}')">
+            COMMENTS
+          </button>
+          <div id="myDIV">
+            <p>
+              ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج
+              کے پیشہ ورانہ امور سمیت متعدد امور پر تبادلہ خیال کیا۔ ذرائع نے
+              مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار
+              اپریل میں وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان
+              میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق پیشہ
+              ورانہ امور پر تبادلہ خیال کیا گیا۔
+            </p>
+          </div>
+          <!-- Comment section news -->
 
-                          <fieldset>
-                            <div class="row">
-                              <div class="col-sm-3 col-lg-2 hidden-xs">
-                                <img
-                                  class="img-responsive"
-                                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                  alt=""
-                                />
-                              </div>
-                              <div
-                                class="form-group col-xs-12 col-sm-9 col-lg-10"
-                              >
-                                <textarea
-                                  class="form-control"
-                                  id="message"
-                                  name="comment_area"
-                                  placeholder="Add a comment..."
-                                  required=""
-                                ></textarea>
-                              </div>
+          <div id="ComDIV_{{ each_news.id }}" style="display:none;">
+            <div class="com">
+              <section class="content-item" id="comments">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <h2 class="pull-left" style="margin-top: -0.6%">
+                        4 Comments
+                      </h2>
+                      <form method="post" action="{{ url_for('add_comment', news_id=each_news.id) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+                        <fieldset>
+                          <div class="row">
+                            <div class="col-sm-3 col-lg-2 hidden-xs">
+                              <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                alt="" />
                             </div>
-                            <button
-                              type="submit"
-                              class="btn btn-normal pull-left"
-                            >
-                              Submit
-                            </button>
-                          </fieldset>
-                        </form>
-
-                        <!--                 <h3>4 Comments</h3> -->
-
-                        <!-- COMMENT 1 - START -->
-                        {% for comment in comments %} {% if comment.news_id == each_news.id and not
-                        comment.parent_id and comment.report == 0 %}
-                        <div class="media">
-                          <a class="pull-left" href="#"
-                            ><img
-                              class="media-object"
-                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                              alt=""
-                          /></a>
-                          <div class="media-body">
-                            <h4 class="media-heading">John Doe</h4>
-                            <p>{{ comment.text }}</p>
-                            <ul
-                              class="list-unstyled list-inline media-detail pull-left"
-                            >
-                              <li><i class="far fa-clock"></i>2 d</li>
-                              <li><i class="fa fa-thumbs-up"></i>13</li>
-                            </ul>
-                            <ul
-                              class="list-unstyled list-inline media-detail pull-right"
-                            >
-                              {% for child_comment in comments %} {% if
-                              comment.id == child_comment.parent_id and child_comment.report == 0 %}
-                              <p>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD
-                                REPLY: {{ child_comment.text }}
-                              </p>
-                              {% endif %} {% endfor %}
-                              <li class="">
-                                <a
-                                  href="{{ url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) }}"
-                                  >REPLY</a
-                                >
-                              </li>
-                              <li class="">
-                                <a
-                                  href="{{ url_for('delete_comment', comment_id=comment.id) }}"
-                                  >DELETE</a
-                                >
-                              </li>
-                              <li class=""><a href="{{ url_for('add_report_comment', comment_id=comment.id) }}">Report</a></li>
-                            </ul>
+                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                              <textarea class="form-control" id="message" name="comment_area"
+                                placeholder="Add a comment..." required=""></textarea>
+                            </div>
                           </div>
+                          <button type="submit" class="btn btn-normal pull-left">
+                            Submit
+                          </button>
+                        </fieldset>
+                      </form>
+
+                      <!--                 <h3>4 Comments</h3> -->
+
+                      <!-- COMMENT 1 - START -->
+                      {% for comment in comments %} {% if comment.news_id == each_news.id and not
+                      comment.parent_id and comment.report == 0 %}
+                      <div class="media">
+                        <a class="pull-left" href="#"><img class="media-object"
+                            src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                        <div class="media-body">
+                          <h4 class="media-heading">John Doe</h4>
+                          <p>{{ comment.text }}</p>
+                          <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><i class="far fa-clock"></i>2 d</li>
+                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                          </ul>
+                          <ul class="list-unstyled list-inline media-detail pull-right">
+                            {% for child_comment in comments %} {% if
+                            comment.id == child_comment.parent_id and child_comment.report == 0 %}
+                            <p>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD
+                              REPLY: {{ child_comment.text }}
+                            </p>
+                            {% endif %} {% endfor %}
+                            <li class="">
+                              <a
+                                href="{{ url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) }}">REPLY</a>
+                            </li>
+                            <li class="">
+                              <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">DELETE</a>
+                            </li>
+                            <li class=""><a href="{{ url_for('add_report_comment', comment_id=comment.id) }}">Report</a>
+                            </li>
+                          </ul>
                         </div>
-                        {% endif %} {% endfor %}
-                        <!-- COMMENT 1 - END -->
                       </div>
+                      {% endif %} {% endfor %}
+                      <!-- COMMENT 1 - END -->
                     </div>
                   </div>
-                </section>
-              </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
-        <hr />
-        {% endfor %}
       </div>
-      <!-- ******* end -->
-      <!-- *********************************************************************** generalist tag info Start -->
-      {% include 'right_popular_news.html'%}
-      <!-- ******* end -->
-    </section>
-    <!-- for comment section news -->
-    <script>
-      function hiFunction(value) {
-        var x = document.getElementById(value);
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
+      <hr />
+      {% endfor %}
+    </div>
+    <!-- ******* end -->
+    <!-- *********************************************************************** generalist tag info Start -->
+    {% include 'right_popular_news.html'%}
+    <!-- ******* end -->
+  </section>
+  <!-- for comment section news -->
+  <script>
+    function hiFunction(value) {
+      var x = document.getElementById(value);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
       }
-    </script>
-    <!-- for translated news -->
-    <script>
-      function myFunction() {
-        var x = document.getElementById("myDIV");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
+    }
+  </script>
+  <!-- for translated news -->
+  <script>
+    function myFunction() {
+      var x = document.getElementById("myDIV");
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
       }
-    </script>
+    }
+  </script>
 
-    <!-- for follow button  -->
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $("#follow-button").click(function () {
-          if ($("#follow-button").text() == "+ Follow") {
-            // *** State Change: To Following ***
-            // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms
-            $("#follow-button").animate(
-              { width: "-=10px" },
-              100,
-              "easeInCubic",
-              function () {}
-            );
+  <!-- for follow button  -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#follow-button").click(function () {
+        if ($("#follow-button").text() == "+ Follow") {
+          // *** State Change: To Following ***
+          // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms
+          $("#follow-button").animate(
+            { width: "-=10px" },
+            100,
+            "easeInCubic",
+            function () { }
+          );
 
-            // then now we want the button to expand out to it's full state
-            // The left translation is to keep the button centred with it's longer width
-            $("#follow-button").animate(
-              { width: "+=45px", left: "-=15px" },
-              600,
-              "easeInOutBack",
-              function () {
-                $("#follow-button").css("color", "#fff");
-                $("#follow-button").text("Following");
+          // then now we want the button to expand out to it's full state
+          // The left translation is to keep the button centred with it's longer width
+          $("#follow-button").animate(
+            { width: "+=45px", left: "-=15px" },
+            600,
+            "easeInOutBack",
+            function () {
+              $("#follow-button").css("color", "#fff");
+              $("#follow-button").text("Following");
 
-                // Animate the background transition from white to green. Using JQuery Color
-                $("#follow-button").animate(
-                  {
-                    backgroundColor: "#2EB82E",
-                    borderColor: "#2EB82E",
-                  },
-                  1000
-                );
-              }
-            );
-          } else {
-            // *** State Change: Unfollow ***
-            // Change the button back to it's original state
-            $("#follow-button").animate(
-              { width: "-=25px", left: "+=15px" },
-              600,
-              "easeInOutBack",
-              function () {
-                $("#follow-button").text("+ Follow");
-                $("#follow-button").css("color", "#3399FF");
-                $("#follow-button").css("background-color", "#ffffff");
-                $("#follow-button").css("border-color", "#3399FF");
-              }
-            );
-          }
-        });
+              // Animate the background transition from white to green. Using JQuery Color
+              $("#follow-button").animate(
+                {
+                  backgroundColor: "#2EB82E",
+                  borderColor: "#2EB82E",
+                },
+                1000
+              );
+            }
+          );
+        } else {
+          // *** State Change: Unfollow ***
+          // Change the button back to it's original state
+          $("#follow-button").animate(
+            { width: "-=25px", left: "+=15px" },
+            600,
+            "easeInOutBack",
+            function () {
+              $("#follow-button").text("+ Follow");
+              $("#follow-button").css("color", "#3399FF");
+              $("#follow-button").css("background-color", "#ffffff");
+              $("#follow-button").css("border-color", "#3399FF");
+            }
+          );
+        }
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
