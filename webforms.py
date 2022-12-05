@@ -21,3 +21,6 @@ class WriteNewsForm(FlaskForm):
     image = FileField("Choose Image", validators=[FileRequired()])
     title = StringField("Write Title of your News", validators=[DataRequired()])
     description = TextAreaField("Write your News descripton", validators=[DataRequired()])
+
+class WritePost(FlaskForm):
+    description = TextAreaField("Write here!", validators=[DataRequired()])

@@ -1,216 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Account_Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Account_Details</title>
     <link rel="stylesheet" type="text/css" href="/static/style.css">
     <!-- for table -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- for navbar -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!-- for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- for navbar -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 
 
 
-<style>
-body {
-    color: #566787;
-    background: #f5f5f5;
-    font-family: 'Roboto', sans-serif;
-}
-</style>
+    <style>
+        body {
+            color: #566787;
+            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 
-<script>
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
-<!-- for tooltip -->
-<script type="text/javascript">
-$(document).ready(function(){
-    $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
-        placement : 'right'
-    });
-});
-</script>
+    <!-- for tooltip -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+                placement: 'right'
+            });
+        });
+    </script>
 
 </head>
+
 <body>
     <section class="GContent" style="background-color: #f2f3f4">
-<div class="iconbar" style="background-color: white;">
-            <a href="index.html"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;" tooltip-glyph="glyph-tooltip-demo" data-original-title="Home"></a>
-            <a href="/Admindashboard" ><span  class="glyphicon glyphicon glyphicon-th-large icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Dashboard"></span></a><br>
-            <a href="/Adminnotification"><span class="glyphicon glyphicon-bell icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Notifications"></span></a><br>
-            <a href="/onlinestatus"><span class="glyphicon glyphicon glyphicon-dashboard icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Online_Status"></span></a><br>
-            <a href="/Accountdetails"><span class="glyphicon glyphicon glyphicon-stats icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Registeration_Record"></span></a><br>
-            <a href="/reportednews"><span class="glyphicon glyphicon-list-alt icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Reported_News"></span></a><br>
-            <a href="/reportedComments"><span class="glyphicon glyphicon glyphicon-comment icon-size" tooltip-glyph="glyph-tooltip-demo" data-original-title="Reported_Comments"></span></a><br>
-            <div class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link  user-action"><img class="profile-pic" src="/static/Images/profile3.jpeg"></a>
-                <div class="dropdown-menu" style="margin-left: 2%; padding: 20%; margin-bottom: -50%; margin-right: 0px; ">
-                    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a><br>
-                    <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a><br>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                </div>
-            </div>
- </div>
-<!-- **********end -->
-<!-- *********************************************************************** all Activity show here   -->   
-    <div class="G1" style="width: 94%;">
+        {% include 'left_admin_menu.html' %}
+        <!-- **********end -->
+        <!-- *********************************************************************** all Activity show here   -->
+        <div class="G1" style="width: 94%;">
 
-        <div class="Gformat" style="width: 100%;">
-<!-- start  -->
-<div class="container-xl">
-    <div class="table-responsive">
-        <div class="table-wrapper">
-            <div class="table-title">
-                <div class="row">
-                    <div class="col-sm-5">
-                        <h2 style="color: white">Registered Account <b>Details</b></h2>
-                    </div>
-                    <div class="col-sm-7">
-                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>                       
+            <div class="Gformat" style="width: 100%;">
+                <!-- start  -->
+                <div class="container-xl">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <h2 style="color: white">Registered Account <b>Details</b></h2>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i>
+                                            <span>Add New User</span></a>
+                                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i>
+                                            <span>Export to Excel</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Date Created</th>
+                                        <th>Role</th>
+                                        <th style="width: 15%;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{user.id}}</td>
+                                        <td><a href="#"><i class="fa fa-user-circle" aria-hidden="true"
+                                                    style="font-size: 30px;"></i> {{user.username}}</a></td>
+                                        <td>{{user.created_at}}</td>
+                                        <td>{{user.role}}</td>
+                                        <td>
+                                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE417;</i></a>
+                                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE8B8;</i></a>
+                                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE5C9;</i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+                                <div class="hint-text">Showing <b>8</b> out of <b>24</b> new registered accounts</div>
+                                <ul class="pagination">
+                                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"
+                                                style="margin-top: -8px;"></i></a></li>
+                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                    <li class="page-item active "><a href="#" class="page-link"><i
+                                                class="fa fa-angle-double-right" style="margin-top: -8px;"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>                       
-                        <th>Date Created</th>
-                        <th>Role</th>
-                        <th style="width: 15%;">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Michael Raza</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Reader</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Fatima Abbasi</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Gournalist</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                         <tr>
-                        <td>3</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Michael Raza</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Reader</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Fatima Abbasi</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Gournalist</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                         <tr>
-                        <td>5</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Michael Raza</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Reader</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Fatima Abbasi</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Gournalist</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                         <tr>
-                        <td>7</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Michael Raza</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Reader</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8</td>
-                        <td><a href="#" ><i class="fa fa-user-circle" aria-hidden="true" style="font-size: 30px;"></i> Fatima Abbasi</a></td>
-                        <td>04/10/2022</td>                        
-                        <td>Gournalist</td>
-                        <td>
-                            <a href="#" class="view" title="View Account" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-                <div class="clearfix">
-                <div class="hint-text">Showing <b>8</b> out of <b>24</b> new registered accounts</div>
-                <ul class="pagination">
-                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left" style="margin-top: -8px;"></i></a></li>
-                    <li class="page-item active" ><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item active " ><a href="#" class="page-link"><i class="fa fa-angle-double-right" style="margin-top: -8px;"></i></a></li>
-                </ul>
+
+                <!--end  -->
             </div>
         </div>
-    </div>
-</div>     
-
-<!--end  -->
-</div>
-</div>
-</section>
+    </section>
 </body>
+
 </html>

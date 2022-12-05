@@ -77,8 +77,12 @@
         <div class="panel panel-default">
           <div id="collapse1" class="panel-collapse collapse in">
             <div class="panel-body" style="border-style: none;">
-              <p>aaaaaaaa</p>
-              <p>aaaaaaaa</p>
+              {% for notification in notifications %}
+              <div class="alert alert-info">
+                <p>{{notification.activity}}</p>
+                <p style="text-align: right;">{{notification.created_at}}</p>
+              </div>
+              {% endfor %}
               <div class="Fformat">
                 <!-- profile icon -->
                 <h6 style=" font-size: 14px; color: gray">You're all caught up.</h6>
@@ -93,6 +97,7 @@
           <div id="collapse2" class="panel-collapse collapse">
             <div class="panel-body" style="border-style: none;">
               <!-- newshistory List -->
+              
               <p>aaaaaaaaaaa</p>
               <p>aaaaaaaaaaa</p>
               <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t any respose yet.</h6>

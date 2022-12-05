@@ -1,69 +1,68 @@
 <!-- ********************************* Top animation Designing -->
 <script type="text/javascript">
-    // Some random colors
-    const colors = ["#2AA7FF", "#5BCAF5", "#108ACB", "#2B709A", "#00517C", "#002D8A", "#DB4437", "lightgray", "darkgray"];
+  // Some random colors
+  const colors = ["#2AA7FF", "#5BCAF5", "#108ACB", "#2B709A", "#00517C", "#002D8A", "#DB4437", "lightgray", "darkgray"];
 
-    const numBalls = 100;
-    const balls = [];
+  const numBalls = 100;
+  const balls = [];
 
-    for (let i = 0; i < numBalls; i++) {
-      let ball = document.createElement("div");
-      ball.classList.add("ball");
-      ball.style.background = colors[Math.floor(Math.random() * colors.length)];
-      ball.style.left = `${Math.floor(Math.random() * 90)}vw`;
-      ball.style.top = `${Math.floor(Math.random() * 20)}vh`;
-      ball.style.transform = `scale(${Math.random()})`;
-      ball.style.width = `${Math.random()}em`;
-      ball.style.height = ball.style.width;
+  for (let i = 0; i < numBalls; i++) {
+    let ball = document.createElement("div");
+    ball.classList.add("ball");
+    ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+    ball.style.left = `${Math.floor(Math.random() * 90)}vw`;
+    ball.style.top = `${Math.floor(Math.random() * 20)}vh`;
+    ball.style.transform = `scale(${Math.random()})`;
+    ball.style.width = `${Math.random()}em`;
+    ball.style.height = ball.style.width;
 
-      balls.push(ball);
-      document.body.append(ball);
-    }
+    balls.push(ball);
+    document.body.append(ball);
+  }
 
-    // Keyframes
-    balls.forEach((el, i, ra) => {
-      let to = {
-        x: Math.random() * (i % 2 === 0 ? -11 : 11),
-        y: Math.random() * 12
-      };
+  // Keyframes
+  balls.forEach((el, i, ra) => {
+    let to = {
+      x: Math.random() * (i % 2 === 0 ? -11 : 11),
+      y: Math.random() * 12
+    };
 
-      let anim = el.animate(
-        [
-          { transform: "translate(0, 0)" },
-          { transform: `translate(${to.x}rem, ${to.y}rem)` }
-        ],
-        {
-          duration: (Math.random() + 1) * 2000, // random duration
-          direction: "alternate",
-          fill: "both",
-          iterations: Infinity,
-          easing: "ease-in-out"
-        }
-      );
-    });
+    let anim = el.animate(
+      [
+        { transform: "translate(0, 0)" },
+        { transform: `translate(${to.x}rem, ${to.y}rem)` }
+      ],
+      {
+        duration: (Math.random() + 1) * 2000, // random duration
+        direction: "alternate",
+        fill: "both",
+        iterations: Infinity,
+        easing: "ease-in-out"
+      }
+    );
+  });
 
-  </script>
-  <!-- *********************************************** Top main Logo -->
-  <div class="topLogo">
-    <img class="tLi" src="/static/Images/TopLogo.png">
-  </div>
-  <!-- **********************************************Navebar -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <a href="/" style="width: 65px; height: 8px; margin-top: -60px;"><img src="/static/Images/navbarLogo.png"
-        style="width: 65px; height: 60px;"></a>
-    <a href="#" class="navbar-brand"><b>Telescope</b><b>News</b></a>
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- Collection of nav links, forms, and other content for toggling -->
-    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
-      <div class="navbar-nav">
-        <a href="/newsSummary" class="nav-item nav-link">News</a>
-        <a href="/generalistNews" class="nav-item nav-link">Articles</a>
-        <a href="/writenews" class="nav-item nav-link active">Write</a>
-        <a href="#" class="nav-item nav-link">Help</a>
-        <!-- <a href="#" class="nav-item nav-link">About</a> -->
-      </div>
+</script>
+<!-- *********************************************** Top main Logo -->
+<div class="ml-auto mr-auto topLogo">
+  <img class="tLi" src="/static/Images/TopLogo.png">
+</div>
+<!-- **********************************************Navebar -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <a href="/" style="width: 65px; height: 8px; margin-top: -60px;"><img src="/static/Images/navbarLogo.png"
+      style="width: 65px; height: 60px;"></a>
+  <a href="#" class="navbar-brand"><b>Telescope</b><b>News</b></a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+    <div class="ml-auto mr-auto navbar-nav">
+      <a href="/newsSummary" class="nav-item nav-link">News</a>
+      <a href="/generalistNews" class="nav-item nav-link">Articles</a>
+      <a href="/writenews" class="nav-item nav-link active">Write</a>
+      <a href="#" class="nav-item nav-link">Help</a>
+      <!-- <a href="#" class="nav-item nav-link">About</a> -->
       <form class="navbar-form form-inline">
         <div class="input-group search-box">
           <input type="text" id="search" class="form-control" placeholder="Search here...">
@@ -74,32 +73,34 @@
           </div>
         </div>
       </form>
-
-      {% if current_user.is_authenticated %}
-      <div class="navbar-nav ml-auto action-buttons">
-        <div class="nav-item dropdown">
-          <a href="{{ url_for('logout', userid = current_user.id)}}" class="btn btn-primary dropdown-toggle me-4">Sign out</a>
-        </div>
-      </div>
-      {% else %}
-      <div class="navbar-nav ml-auto action-buttons">
-        <div class="nav-item dropdown">
-          <!-- Sign in -->
-          <a href="#" data-toggle="dropdown" class="btn btn-primary mr-4">Sign in</a>
-          <div class="dropdown-menu action-form">
-            <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-            {% include 'signin.html' %}
-          </div>
-        </div>
-        <!-- sign Up -->
-        <div class="nav-item dropdown">
-          <a href="#" data-toggle="dropdown" class="btn btn-primary">Sign up</a>
-          <div class="dropdown-menu action-form">
-            {% include 'signup.html' %}
-          </div>
-        </div>
-      </div>
-      {% endif %}
     </div>
-  </nav>
-  <!-- ********************************************Image under Navbar -->
+
+    {% if current_user.is_authenticated %}
+    <div class="navbar-nav ml-auto action-buttons">
+      <div class="nav-item dropdown">
+        <a href="{{ url_for('logout', userid = current_user.id)}}" class="btn btn-primary dropdown-toggle me-4">Sign
+          out</a>
+      </div>
+    </div>
+    {% else %}
+    <div class="navbar-nav ml-auto action-buttons">
+      <div class="nav-item dropdown">
+        <!-- Sign in -->
+        <a href="#" data-toggle="dropdown" class="btn btn-primary mr-4">Sign in</a>
+        <div class="dropdown-menu action-form">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+          {% include 'signin.html' %}
+        </div>
+      </div>
+      <!-- sign Up -->
+      <div class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="btn btn-primary">Sign up</a>
+        <div class="dropdown-menu action-form">
+          {% include 'signup.html' %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+<!-- ********************************************Image under Navbar -->

@@ -22,6 +22,7 @@ class Users(db.Model, UserMixin):
     poster = db.relationship('Posts', backref=backref('poster'))
     reporter = db.relationship('Reports', backref=backref('reporter'))
     bookmarker = db.relationship('Bookmarks', backref=backref('bookmarker'))
+    notifier = db.relationship('Notifications', backref=backref('notifier'))
 
 
 class Posts(db.Model):
@@ -34,7 +35,7 @@ class Posts(db.Model):
     
     article = db.relationship('News', backref=backref('article'))
     post = db.relationship('Reports', backref=backref('post'))
-
+    comment_post = db.relationship('Comments', backref=backref('comment_post'))
 
 class News(db.Model):
     id = Column(Integer, primary_key = True)
@@ -44,6 +45,12 @@ class News(db.Model):
     image = Column(BLOB, nullable=False)
     mimetype = Column(String, nullable=False)
 
+    commented_news = db.relationship('Comments', backref = backref('commented_news'))
+
+class Comments(db.Model):
+    id = Column(Integer, primary_key = True)
+    post_id = Column(Integer, ForeignKey('posts.id'), nullable = False)
+    news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
 
 class Types(db.Model):
     id = Column(Integer, primary_key = True)
@@ -81,5 +88,12 @@ class Bookmarks(db.Model):
     id = Column(Integer, primary_key = True)
     bookmarker_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
-    
+
     news = db.relationship('News', backref=db.backref('news', uselist=False))
+
+class Notifications(db.Model):
+    id = Column(Integer, primary_key = True)
+    notifier_id = Column(Integer, ForeignKey('users.id'), nullable = False)
+    activity = Column(String, nullable = False)
+    link = Column(String, nullable = True)
+    created_at = Column(DateTime, server_default = func.now(), nullable=False)

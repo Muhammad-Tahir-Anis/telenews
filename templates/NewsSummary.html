@@ -100,7 +100,7 @@
                         <fieldset>
                           <div class="row">
                             <div class="col-sm-3 col-lg-2 hidden-xs">
-                              <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                              <img class="img-responsive" src="/{{current_user.id}}"
                                 alt="" />
                             </div>
                             <div class="form-group col-xs-12 col-sm-9 col-lg-10">
@@ -117,34 +117,34 @@
                       <!--                 <h3>4 Comments</h3> -->
 
                       <!-- COMMENT 1 - START -->
-                      {% for comment in comments %} {% if comment.news_id == each_news.id and not
-                      comment.parent_id and comment.report == 0 %}
+                      {% for comment in comments %} 
+                      {% if comment.news_id == each_news.id %}
                       <div class="media">
                         <a class="pull-left" href="#"><img class="media-object"
-                            src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" /></a>
+                            src="/{{current_user.id}}" alt="" /></a>
                         <div class="media-body">
                           <h4 class="media-heading">John Doe</h4>
-                          <p>{{ comment.text }}</p>
+                          <p>{{ comment.comment_post.description }}</p>
                           <ul class="list-unstyled list-inline media-detail pull-left">
                             <li><i class="far fa-clock"></i>2 d</li>
                             <li><i class="fa fa-thumbs-up"></i>13</li>
                           </ul>
                           <ul class="list-unstyled list-inline media-detail pull-right">
-                            {% for child_comment in comments %} {% if
-                            comment.id == child_comment.parent_id and child_comment.report == 0 %}
+                            <!-- {% for child_comment in comments %} 
+                            {% if comment.id == child_comment.parent_id and child_comment.report == 0 %}
                             <p>
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD
                               REPLY: {{ child_comment.text }}
-                            </p>
-                            {% endif %} {% endfor %}
+                            </p> -->
+                            <!-- {% endif %} {% endfor %} -->
                             <li class="">
                               <a
-                                href="{{ url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) }}">REPLY</a>
+                                href="{# url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) #}">REPLY</a>
                             </li>
                             <li class="">
-                              <a href="{{ url_for('delete_comment', comment_id=comment.id) }}">DELETE</a>
+                              <a href="{# url_for('delete_comment', comment_id=comment.id) #}">DELETE</a>
                             </li>
-                            <li class=""><a href="{{ url_for('add_report_comment', comment_id=comment.id) }}">Report</a>
+                            <li class=""><a href="{# url_for('add_report_comment', comment_id=comment.id) #}">Report</a>
                             </li>
                           </ul>
                         </div>

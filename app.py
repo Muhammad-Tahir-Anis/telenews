@@ -2,11 +2,11 @@
 from io import BytesIO
 import os
 from flask import Flask, render_template, request, redirect, url_for, Response, flash, session
-from models import Bookmarks, Posts, Types, db, News, Users
+from models import Bookmarks, Comments, Notifications, Posts, Types, db, News, Users
 from flask_wtf.csrf import CSRFProtect
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 
-from webforms import LoginForm, SignUpForm, WriteNewsForm
+from webforms import LoginForm, SignUpForm, WriteNewsForm, WritePost
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -28,7 +28,6 @@ login_manager.init_app(app)
 def load_user(user_id):
     # since the user_id is just the primary key of our user table, use it in the query for the user
     return Users.query.get(int(user_id))
-
 
 with app.app_context():
     db.create_all()
@@ -54,7 +53,11 @@ def logout(userid):
     user = load_user(userid)
     user.status = False
     db.session.commit()
+    message = f"{current_user.username}, You are Logged out!"
+    notification = Notifications(notifier_id = current_user.id, activity = message)
     logout_user()
+    db.session.add(notification)
+    db.session.commit()
     users = Users.query.order_by().all()
     for user in users:
         print(user.is_active)
@@ -80,8 +83,11 @@ def signup():
         status = False
 
         user = Users(username = username, email = email, role = role, password = password, profile_pic = image_data, mimetype = mimetype, status = status)
-        db.session.add(user)
+        message = f"{username}, You are Welcome to Telenews!"
+        notification = Notifications(notifier_id = current_user.id, activity = message)
+        db.session.add(user, notification)
         db.session.commit()
+
     return render_template("index.html", signup = signup, signin = signin)
 
 
@@ -99,8 +105,14 @@ def login():
             session['username'] = user.username
             flash('You are loged in')
             if current_user.role == 'admin':
+                notification = Notifications(notifier_id = current_user.id, activity = f"{current_user.username} logged in!")
+                db.session.add(notification)
+                db.session.commit()
                 return render_template('AdminDashboard.html')
             else:
+                notification = Notifications(notifier_id = current_user.id, activity = f"{current_user.username} logged in!")
+                db.session.add(notification)
+                db.session.commit()
                 return render_template('Notifications.html')
         else:
             flash('You are loged in')
@@ -119,27 +131,54 @@ def get_profile(id):
 @app.route('/onlinestatus')
 def get_online_users():
     print(current_user.is_active)
-    # print(session["username"])
-    users = Users.query.order_by().all()
+    users = Users.query.order_by(Users.id.desc()).all()
     return render_template("OnlineStatus.html", users = users)
 
 @app.route('/bookmark/<news_id>')
 def bookmark(news_id):
     news = News.query.get(int(news_id))
     if news:
-        bookmark = Bookmarks(bookmarker_id = current_user.id, news_id = news_id)
-        db.session.add(bookmark)
-        db.session.commit()
-        flash('news bookmarked!')
+        if not Bookmarks.query.filter_by(news_id = news_id, bookmarker_id = current_user.id).first():
+            bookmark = Bookmarks(bookmarker_id = current_user.id, news_id = news_id)
+            news = News.query.get(news_id)
+            message = f"You bookmarked news: {news.title}"
+            link = "go to bookmarks!"
+            notification = Notifications(notifier_id = current_user.id, activity = message, link = link)
+            db.session.add(bookmark)
+            db.session.add(notification)
+            
+            db.session.commit()            
+            flash('news bookmarked!')
+        else:
+            flash('already bookmarked!')
+            print("already bookmarked")
     else:
         flash('news not found!')
     return redirect('/newsSummary')
 
 
+@app.route('/unbookmark/<bookmark_id>')
+def unbookmark(bookmark_id):
+    bookmark = Bookmarks.query.get(bookmark_id)
+    message = f"You Unbookmarked news: {bookmark.news.title}"
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+    db.session.delete(bookmark)
+    db.session.add(notification)
+    db.session.commit()
+    return redirect('/list')
+
+
+@app.route("/list")
+def list_news():
+    bookmarks = Bookmarks.query.order_by().all()
+    return render_template("List.html", bookmarks = bookmarks)
+
+
 @app.route("/Accountdetails")
 @login_required
 def Account_details():
-    return render_template("AccountDetails.html")
+    users = Users.query.order_by(Users.id.desc()).all()
+    return render_template("AccountDetails.html", users = users)
 
 
 @app.route("/Admindashboard")
@@ -149,7 +188,8 @@ def Admin_dashboard():
 
 @app.route("/Adminnotification")
 def Admin_notification():
-    return render_template("AdminNotification.html")
+    news = News.query.order_by(News.id.desc()).all()
+    return render_template("AdminNotification.html", news = news)
 
 
 @app.route("/articleView")
@@ -173,58 +213,76 @@ def generalist_news():
     return render_template("GeneralistNews.html")
 
 
-@app.route("/list")
-def list_news():
-    return render_template("List.html")
-
-
 @app.route("/newsSummary")
 def news_summary():
     news = News.query.order_by(News.id.desc()).all()
+    comments = Comments.query.order_by(Comments.id.desc()).all()
     # comments = Comments.query.order_by(Comments.timestamp.desc()).all()
-    return render_template("NewsSummary.html", news=news)
+    return render_template("NewsSummary.html", news=news, comments = comments)
 
-
-@app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
-def add_comment_reply(news_id, refer=True):
-    parent_id = request.args.get('parent_id')
-    if request.method == 'POST':
-        reply = Comments(
-            news_id=news_id, parent_id=parent_id, text=request.form['comment_area'])
-
-        db.session.add(reply)
-        db.session.commit()
-        if refer:
-            return redirect(url_for('summary_view', news_id=news_id))
-        else:
-            return redirect(request.referrer)
-        # flash("Your comment has been added. Welcome!")
-    return render_template('AddReplyToPost.html', parent_id=parent_id, news_id=news_id)
-
-
-@app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
+@app.route("/add_comment/<news_id>", methods=['GET', 'POST'])
 def add_comment(news_id):
-    if request.method == 'POST':
-        reply = Comments(
-
-            news_id=news_id, text=request.form['comment_area'])
-
-        db.session.add(reply)
-        db.session.commit()
-        # flash("Your comment has been added. Welcome!")
-    print(request.referrer, 'G')
-    return redirect(request.referrer)
-
-    # return render_template("news/add_comments.html", news_id=news_id, parent_id=parent_id)
-
-
-@app.route("/comment/delete/<int:comment_id>/", methods=["GET"])
-def delete_comment(comment_id):
-    reply = Comments.query.get(comment_id)
-    db.session.delete(reply)
+    type = Types.query.filter_by(name = "comment").first()
+    description = request.form['comment_area']
+    post = Posts(poster_id = current_user.id, type_id = type.id, description = description)
+    db.session.add(post)
     db.session.commit()
-    # flash("Your comment has been added. Welcome!")
-    return redirect(request.referrer)
+    
+    post = Posts.query.filter_by(poster_id = current_user.id, type_id = type.id).all()
+    post = post[len(post)-1]
+    news = News.query.filter_by(id = news_id).first()
+    comment = Comments(post_id = post.id, news_id = news.id)
+    
+
+    message = f"{current_user.username}, you just commented on {news.article.poster.username}'s news"
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+
+    db.session.add(comment)
+    db.session.add(notification)
+
+    db.session.commit()
+    return redirect('/newsSummary')
+
+# @app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
+# def add_comment_reply(news_id, refer=True):
+#     parent_id = request.args.get('parent_id')
+#     if request.method == 'POST':
+#         reply = Comments(
+#             news_id=news_id, parent_id=parent_id, text=request.form['comment_area'])
+
+#         db.session.add(reply)
+#         db.session.commit()
+#         if refer:
+#             return redirect(url_for('summary_view', news_id=news_id))
+#         else:
+#             return redirect(request.referrer)
+#         # flash("Your comment has been added. Welcome!")
+#     return render_template('AddReplyToPost.html', parent_id=parent_id, news_id=news_id)
+
+
+# @app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
+# def add_comment(news_id):
+#     if request.method == 'POST':
+#         reply = Comments(
+
+#             news_id=news_id, text=request.form['comment_area'])
+
+#         db.session.add(reply)
+#         db.session.commit()
+#         # flash("Your comment has been added. Welcome!")
+#     print(request.referrer, 'G')
+#     return redirect(request.referrer)
+
+#     # return render_template("news/add_comments.html", news_id=news_id, parent_id=parent_id)
+
+
+# @app.route("/comment/delete/<int:comment_id>/", methods=["GET"])
+# def delete_comment(comment_id):
+#     reply = Comments.query.get(comment_id)
+#     db.session.delete(reply)
+#     db.session.commit()
+#     # flash("Your comment has been added. Welcome!")
+#     return redirect(request.referrer)
 
 
 @app.route("/news/delete/<int:news_id>/", methods=["GET"])
@@ -238,12 +296,9 @@ def delete_post(news_id):
 
 @app.route("/notifications")
 def full_notifications():
-    return render_template("Notifications.html")
-
-
-# @app.route("/onlinestatus")
-# def online_status():
-#     return render_template("OnlineStatus.html")
+    notifications = Notifications.query.filter_by(notifier_id = current_user.id).all()
+    notifications.reverse()
+    return render_template("Notifications.html", notifications = notifications)
 
 
 @app.route("/reportedComments")
