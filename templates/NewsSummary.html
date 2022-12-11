@@ -9,6 +9,11 @@
 
   <link rel="stylesheet" type="text/css" href="/static/style.css" />
 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -40,7 +45,7 @@
 
 <body>
   <section class="GContent">
-    {%include 'left_user_menu.html'%}
+    {% include 'left_user_menu.html' %}
     <!-- **********end -->
     <!-- *********************************************************************** all generlaist content show  -->
     <div class="G1">
@@ -50,7 +55,7 @@
         <!-- name/time -->
         <a class="time" href=""><i class="far fa-clock"></i>27 views.{{ each_news.article.created_at }}</a>
         <!-- news title -->
-        <a href="{{ url_for('summary_view', news_id=each_news.id) }}">
+        <a href="{{ url_for('summary_view', news_id=each_news.id) }}" id="{{each_news.id}}">
           <h2>{{ each_news.title }}</h2>
         </a>
         <!-- news summary -->
@@ -58,21 +63,37 @@
 
         <!-- news image -->
 
-        <div class="Gimg"><img src="/static/Images/pic1.jpg" /></div>
+        <!-- <div class="Gimg"><img src="/static/Images/pic1.jpg" /></div> -->
 
         <!-- share icons -->
         <div class="mediabuttons">
+          <div class="flex">
+            <button class="btn btn-secondary" onclick="myFunction()">
+              TRANSLATE NEWS
+            </button>
+            <button class="btn btn-secondary" onclick="hiFunction('ComDIV_{{ each_news.id }}')">
+              COMMENTS
+            </button>
+          </div>
           <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
-          <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+
+          <a class="active" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+          <div class="dropdown-menu">
+            <a href="whatsapp://send?text=This is WhatsApp sharing example using link"
+              data-action="share/whatsapp/share" target="_blank"><i class="fa-brands fa-whatsapp">WhatsApp</i></a>
+
+            <div id="fb-root"></div>
+            <script async defer crossorigin="anonymous"
+              src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v15.0" nonce="k7QjkGiK"></script>
+            <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width=""
+              data-layout="button" data-action="recommend" data-size="small" data-share="true"></div>
+          </div>
+
           <a href="{{url_for('bookmark',news_id = each_news.id)}}"><i class="fa fa-bookmark"
               aria-hidden="true"></i>&nbsp;BOOKMARK</a>
           <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
-          <button class="translater" onclick="myFunction()">
-            TRANSLATE NEWS
-          </button>
-          <button class="Comment" onclick="hiFunction('ComDIV_{{ each_news.id }}')">
-            COMMENTS
-          </button>
+        </div>
+        <div>
           <div id="myDIV">
             <p>
               ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج
@@ -80,83 +101,11 @@
               مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار
               اپریل میں وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان
               میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق پیشہ
-              ورانہ امور پر تبادلہ خیال کیا گیا۔
+              ورانہ امور پر تبادلہ خیال کیا `گیا۔
             </p>
           </div>
           <!-- Comment section news -->
-
-          <div id="ComDIV_{{ each_news.id }}" style="display:none;">
-            <div class="com">
-              <section class="content-item" id="comments">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-7">
-                      <h2 class="pull-left" style="margin-top: -0.6%">
-                        4 Comments
-                      </h2>
-                      <form method="post" action="{{ url_for('add_comment', news_id=each_news.id) }}">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-
-                        <fieldset>
-                          <div class="row">
-                            <div class="col-sm-3 col-lg-2 hidden-xs">
-                              <img class="img-responsive" src="/{{current_user.id}}"
-                                alt="" />
-                            </div>
-                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
-                              <textarea class="form-control" id="message" name="comment_area"
-                                placeholder="Add a comment..." required=""></textarea>
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-normal pull-left">
-                            Submit
-                          </button>
-                        </fieldset>
-                      </form>
-
-                      <!--                 <h3>4 Comments</h3> -->
-
-                      <!-- COMMENT 1 - START -->
-                      {% for comment in comments %} 
-                      {% if comment.news_id == each_news.id %}
-                      <div class="media">
-                        <a class="pull-left" href="#"><img class="media-object"
-                            src="/{{current_user.id}}" alt="" /></a>
-                        <div class="media-body">
-                          <h4 class="media-heading">John Doe</h4>
-                          <p>{{ comment.comment_post.description }}</p>
-                          <ul class="list-unstyled list-inline media-detail pull-left">
-                            <li><i class="far fa-clock"></i>2 d</li>
-                            <li><i class="fa fa-thumbs-up"></i>13</li>
-                          </ul>
-                          <ul class="list-unstyled list-inline media-detail pull-right">
-                            <!-- {% for child_comment in comments %} 
-                            {% if comment.id == child_comment.parent_id and child_comment.report == 0 %}
-                            <p>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHILD
-                              REPLY: {{ child_comment.text }}
-                            </p> -->
-                            <!-- {% endif %} {% endfor %} -->
-                            <li class="">
-                              <a
-                                href="{# url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) #}">REPLY</a>
-                            </li>
-                            <li class="">
-                              <a href="{# url_for('delete_comment', comment_id=comment.id) #}">DELETE</a>
-                            </li>
-                            <li class=""><a href="{# url_for('add_report_comment', comment_id=comment.id) #}">Report</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      {% endif %} {% endfor %}
-                      <!-- COMMENT 1 - END -->
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
+          {% include 'comment_section.html' %}
         </div>
       </div>
       <hr />

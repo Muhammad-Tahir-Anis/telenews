@@ -19,10 +19,10 @@ class Users(db.Model, UserMixin):
     updated_at = Column(DateTime, server_default = func.now(), server_onupdate = func.now(), nullable=False)
 
     # can have many posts
-    poster = db.relationship('Posts', backref=backref('poster'))
-    reporter = db.relationship('Reports', backref=backref('reporter'))
-    bookmarker = db.relationship('Bookmarks', backref=backref('bookmarker'))
-    notifier = db.relationship('Notifications', backref=backref('notifier'))
+    poster = db.relationship('Posts', backref=backref('poster'), cascade = 'all, delete')
+    reporter = db.relationship('Reports', backref=backref('reporter'), cascade = 'all, delete')
+    bookmarker = db.relationship('Bookmarks', backref=backref('bookmarker'), cascade = 'all, delete')
+    notifier = db.relationship('Notifications', backref=backref('notifier'), cascade = 'all, delete')
 
 
 class Posts(db.Model):
@@ -33,9 +33,9 @@ class Posts(db.Model):
     created_at = Column(DateTime, server_default = func.now(), nullable=False)
     updated_at = Column(DateTime, server_default = func.now(), server_onupdate = func.now(), nullable=False)
     
-    article = db.relationship('News', backref=backref('article'))
-    post = db.relationship('Reports', backref=backref('post'))
-    comment_post = db.relationship('Comments', backref=backref('comment_post'))
+    article = db.relationship('News', backref=backref('article'), cascade = "all, delete")
+    post = db.relationship('Reports', backref=backref('post'), cascade = "all, delete")
+    comment_post = db.relationship('Comments', backref=backref('comment_post'), cascade = "all, delete")
 
 class News(db.Model):
     id = Column(Integer, primary_key = True)
@@ -45,7 +45,7 @@ class News(db.Model):
     image = Column(BLOB, nullable=False)
     mimetype = Column(String, nullable=False)
 
-    commented_news = db.relationship('Comments', backref = backref('commented_news'))
+    commented_news = db.relationship('Comments', backref = backref('commented_news'), cascade = "all, delete")
 
 class Comments(db.Model):
     id = Column(Integer, primary_key = True)
@@ -56,8 +56,6 @@ class Types(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable=False)
     type = db.relationship('Posts', backref=backref('type'))
-
-
 
 class Categories(db.Model):
     id = Column(Integer, primary_key = True)
@@ -81,7 +79,7 @@ class Reports(db.Model):
     id = Column(Integer, primary_key = True)
     reporter_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
-    reason = Column(String, nullable=False)
+    reason = Column(String, nullable=True)
     created_at = Column(DateTime, server_default = func.now(), nullable=False)
 
 class Bookmarks(db.Model):

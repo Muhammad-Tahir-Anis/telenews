@@ -30,9 +30,6 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-
-
-
     <style>
         body {
             color: #566787;
@@ -68,7 +65,7 @@
             <div class="Gformat" style="width: 100%;">
                 <!-- start  -->
                 <div class="container-xl">
-                    <div class="table-responsive">
+                    <div class="">
                         <div class="table-wrapper">
                             <div class="table-title">
                                 <div class="row">
@@ -76,8 +73,12 @@
                                         <h2 style="color: white">Registered Account <b>Details</b></h2>
                                     </div>
                                     <div class="col-sm-7">
-                                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i>
+                                        <a href="#" data-toggle="dropdown" class="btn btn-secondary"><i
+                                                class="material-icons">&#xE147;</i>
                                             <span>Add New User</span></a>
+                                        <div class="dropdown-menu action-form">
+                                            {% include 'signup.html' %}
+                                        </div>
                                         <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i>
                                             <span>Export to Excel</span></a>
                                     </div>
@@ -106,7 +107,7 @@
                                                     class="material-icons">&#xE417;</i></a>
                                             <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE8B8;</i></a>
-                                            <a href="#" class="delete" title="Delete Account" data-toggle="tooltip"><i
+                                            <a href="{{ url_for('delete_account', user_id = user.id) }}" class="delete" title="Delete Account" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE5C9;</i></a>
                                         </td>
                                     </tr>

@@ -2,11 +2,13 @@
 from io import BytesIO
 import os
 from flask import Flask, render_template, request, redirect, url_for, Response, flash, session
-from models import Bookmarks, Comments, Notifications, Posts, Types, db, News, Users
+from models import Bookmarks, Comments, Followers, Notifications, Posts, Reports, Types, db, News, Users
 from flask_wtf.csrf import CSRFProtect
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 
 from webforms import LoginForm, SignUpForm, WriteNewsForm, WritePost
+
+import numpy as np
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -81,12 +83,16 @@ def signup():
         image_data = profile.read()
         mimetype = profile.mimetype
         status = False
-
         user = Users(username = username, email = email, role = role, password = password, profile_pic = image_data, mimetype = mimetype, status = status)
-        message = f"{username}, You are Welcome to Telenews!"
-        notification = Notifications(notifier_id = current_user.id, activity = message)
-        db.session.add(user, notification)
+        db.session.add(user)
         db.session.commit()
+        
+        message = f"{username}, You are Welcome to Telenews!"
+        user = Users.query.filter_by(username = username, password = password).first()
+        if user:
+            notification = Notifications(notifier_id = user.id, activity = message)
+            db.session.add(notification)
+            db.session.commit()
 
     return render_template("index.html", signup = signup, signin = signin)
 
@@ -127,6 +133,17 @@ def get_profile(id):
         return 'Img Not Found!', 404
 
     return Response(user.profile_pic, mimetype=user.mimetype)
+
+@app.route('/delete_acctount/<user_id>')
+def delete_account(user_id):
+    user = Users.query.get(user_id)
+    message = f"You have deleted user: {user.username}"
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+    db.session.add(notification)
+    db.session.commit()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect('/Accountdetails')
 
 @app.route('/onlinestatus')
 def get_online_users():
@@ -177,8 +194,10 @@ def list_news():
 @app.route("/Accountdetails")
 @login_required
 def Account_details():
+    signup = SignUpForm()
+    signin = LoginForm()
     users = Users.query.order_by(Users.id.desc()).all()
-    return render_template("AccountDetails.html", users = users)
+    return render_template("AccountDetails.html", users = users, signup = signup, signin = signin)
 
 
 @app.route("/Admindashboard")
@@ -202,11 +221,44 @@ def article_view():
 def edit_profile():
     return render_template("EditProfile.html")
 
+@app.route('/follow/<user_id>')
+def follow(user_id):
+    user = Users.query.filter_by(id = user_id).first()
+    follow_to = user.id
+    follow_by = current_user.id
+    follow = Followers(follow_by = follow_by, follow_to = follow_to)
+    message = f'You start following {user.username}'
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+    db.session.add(follow)
+    db.session.add(notification)
+    db.session.commit()
+    return redirect("/followerlist")
+
+@app.route('/unfollow/<user_id>')
+def unfollow(user_id):
+    follow = Followers.query.filter_by(follow_by = current_user.id, follow_to = user_id).first()
+    db.session.delete(follow)
+    db.session.commit()
+    return redirect('/followerlist')
+    
 
 @app.route("/followerlist")
 def follower_list():
-    return render_template("FollowerList.html")
-
+    users = Users.query.filter_by(role = 'journalist').all()
+    followers = Followers.query.filter_by(follow_by = current_user.id).all()
+    follow_users = []
+    following_users = []
+    if followers:
+        for follow in followers:
+            following_users.append(Users.query.filter_by(id = follow.follow_to).first())
+        for user in users:
+            if user not in following_users:
+                follow_users.append(user)
+        print(following_users)
+    else:
+        follow_users = users
+    print(follow_users, following_users)
+    return render_template("FollowerList.html", follow = follow_users, following = following_users)
 
 @app.route("/generalistNews")
 def generalist_news():
@@ -231,8 +283,7 @@ def add_comment(news_id):
     post = Posts.query.filter_by(poster_id = current_user.id, type_id = type.id).all()
     post = post[len(post)-1]
     news = News.query.filter_by(id = news_id).first()
-    comment = Comments(post_id = post.id, news_id = news.id)
-    
+    comment = Comments(post_id = post.id, news_id = news.id)   
 
     message = f"{current_user.username}, you just commented on {news.article.poster.username}'s news"
     notification = Notifications(notifier_id = current_user.id, activity = message)
@@ -240,6 +291,29 @@ def add_comment(news_id):
     db.session.add(comment)
     db.session.add(notification)
 
+    db.session.commit()
+    return redirect('/newsSummary')
+
+@app.route('/delete_comment/<post_id>')
+def delete_comment(post_id):
+    post = Posts.query.filter_by(id = post_id).first()
+    comment = Comments.query.filter_by(comment_post = post).first()
+    message = f'Your comment on post {comment.commented_news.title} deleted!'
+    notification = Notifications(notifier_id = post.poster.id, activity = message)
+    
+    db.session.delete(post)
+    db.session.add(notification)
+    db.session.commit()
+    return redirect('/newsSummary')
+
+@app.route('/report_comment/<comment_id>')
+def report_comment(comment_id):
+    comment = Comments.query.filter_by(id = comment_id).first()
+    report = Reports(reporter_id = current_user.id, post_id = comment.comment_post.id, reason = "None")
+    message = f'Your comment on post {comment.commented_news.title} is reported!'
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+    db.session.add(report)
+    db.session.add(notification)
     db.session.commit()
     return redirect('/newsSummary')
 
@@ -287,8 +361,11 @@ def add_comment(news_id):
 
 @app.route("/news/delete/<int:news_id>/", methods=["GET"])
 def delete_post(news_id):
-    reply = News.query.get(news_id)
-    db.session.delete(reply)
+    news = News.query.get(news_id)
+    post = news.article
+    message = f'Your news article is deleted'
+    notification = Notifications(notifier_id = current_user.id, activity = message)
+    db.session.delete(post)
     db.session.commit()
     # flash("Your comment has been added. Welcome!")
     return redirect(url_for('news_summary'))
@@ -303,12 +380,22 @@ def full_notifications():
 
 @app.route("/reportedComments")
 def reported_comments():
-    return render_template("ReportedComments.html")
+    reports = Reports.query.order_by(Reports.id.desc()).all()
+    reported_comments = []
+    for report in reports:
+        if report.post.type.name == 'comment':
+            reported_comments.append(report)
+    return render_template("ReportedComments.html", comments = reported_comments, edit = False)
 
 
 @app.route("/reportednews")
 def reported_news():
-    return render_template("ReportedNews.html")
+    reports = Reports.query.order_by(Reports.id.desc()).all()
+    reported_news = []
+    for report in reports:
+        if report.post.type.name == 'news':
+            reported_news.append(report)
+    return render_template("ReportedNews.html", news = reported_news)
 
 
 @app.route("/reportedcommmetsAdmin")
@@ -324,12 +411,18 @@ def add_report_comment(comment_id):
     db.session.commit()
     return redirect(request.referrer)
 
+@app.route('/news/<int:id>')
+def get_news_img(id):
+    news = News.query.filter_by(id=id).first()
+    if not news:
+        return 'Img Not Found!', 404
+
+    return Response(news.image, mimetype=news.mimetype)
 
 @app.route("/summaryview/<int:news_id>")
 def summary_view(news_id):
     news = News.query.get(news_id)
-
-    comments = Comments.query.filter_by(news_id=news_id)
+    comments = Comments.query.filter_by(commented_news=news)
     return render_template("SummaryView.html", news=news, comments=comments)
 
 

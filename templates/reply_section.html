@@ -1,0 +1,63 @@
+<div id="RepDIV_{{ comment.id }}" style="display:none;">
+    <div class="com">
+      <section class="content-item" id="comments">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-7">
+              <h2 class="pull-left" style="margin-top: -0.6%">
+                4 Comments
+              </h2>
+              <form method="post" action="{{ url_for('add_comment', news_id=each_news.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+                <fieldset>
+                  <div class="row">
+                    <div class="col-sm-3 col-lg-2 hidden-xs">
+                      <img class="img-responsive" src="/{{current_user.id}}" alt="" />
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                      <textarea class="form-control" id="message" name="comment_area"
+                        placeholder="Add a comment..." required=""></textarea>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-normal pull-left">
+                    Submit
+                  </button>
+                </fieldset>
+              </form>
+
+              <!--                 <h3>4 Comments</h3> -->
+
+              <!-- COMMENT 1 - START -->
+              {% for comment in comments %}
+              {% if comment.news_id == each_news.id %}
+              <div class="media">
+                <a class="pull-left" href="#"><img class="media-object" src="/{{current_user.id}}" alt="" /></a>
+                <div class="media-body">
+                  <h4 class="media-heading">John Doe</h4>
+                  <p>{{ comment.comment_post.description }}</p>
+                  <ul class="list-unstyled list-inline media-detail pull-left">
+                    <li><i class="far fa-clock"></i>2 d</li>
+                    <li><i class="fa fa-thumbs-up"></i>13</li>
+                  </ul>
+                  <ul class="list-unstyled list-inline media-detail pull-right">
+                    <li class="">
+                      <button onclick="hiFunction('ComDIV_{{ comment.id }}')">REPLY</button>
+                      <a href="{# url_for('add_comment_reply', news_id=each_news.id, parent_id=comment.id, refer=False) #}">REPLY</a>
+                    </li>
+                    <li class="">
+                      <a href="{# url_for('delete_comment', comment_id=comment.id) #}">DELETE</a>
+                    </li>
+                    <li class=""><a href="{# url_for('add_report_comment', comment_id=comment.id) #}">Report</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+              <!-- COMMENT 1 - END -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
