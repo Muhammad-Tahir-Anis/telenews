@@ -51,76 +51,19 @@
   </aside>
   <!-- <br> -->
   <div class="tcontent">
+    {% for news_article in news %}
     <div class="tn">
       <div class="tcard">
         <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
+          <img class="newsimage" src="/{{news_article.id}}" alt="building picture">
         </div>
         <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
+          <p href="#" class="newsheading">{{news_article.title}}</p>
           <h6>Jan 27</h6>
         </div>
       </div>
     </div>
-
-    <div class="tn">
-      <div class="tcard">
-        <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
-        </div>
-        <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
-          <h6>Jan 27</h6>
-        </div>
-      </div>
-    </div>
-
-    <div class="tn">
-      <div class="tcard">
-        <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
-        </div>
-        <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
-          <h6>Jan 27</h6>
-        </div>
-      </div>
-    </div>
-    <div class="tn">
-      <div class="tcard">
-        <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
-        </div>
-        <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
-          <h6>Jan 27</h6>
-        </div>
-      </div>
-    </div>
-
-    <div class="tn">
-      <div class="tcard">
-        <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
-        </div>
-        <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
-          <h6>Jan 27</h6>
-        </div>
-      </div>
-    </div>
-
-    <div class="tn">
-      <div class="tcard">
-        <div class="tni">
-          <img class="newsimage" src="/static/Images/bg.jpg" alt="building picture">
-        </div>
-        <div class="tnt">
-          <p href="#" class="newsheading">The latest news from around the world.Timely. Accurate. Fair.</p>
-          <h6>Jan 27</h6>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
   <!-- <br> -->
   <hr style=" border-color: #2B709A; border-style: solid;">
@@ -136,25 +79,23 @@
   <section class="GContent">
     <!-- *********************************************************************** all News Summary content show  -->
     <div class="G1" style="margin-left: 0.5%;">
+      {% for news_article in news %}
       <br><br>
       <div class="Gformat">
 
         <!-- name/time -->
         <a class="time" href=""><i class="far fa-clock"></i>27 views.June 5</a>
         <!-- news title -->
-        <a href="/summaryview">
-          <h2>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation</h2>
+        <a href="">
+          <h2>{{news_article.title}}</h2>
         </a>
         <!-- news summary -->
-        <h4>The civil-military brass, according to the sources, held deliberations over several matters, including the
-          country’s security situation and the military’s professional affairs. The meeting took place at the PM’s
-          Office, the sources added. The chief of army staff last met the prime minister in April. “Professional matters
-          about national security were discussed during the meeting,” a statement from the PM Office.</h4>
+        <h4>{{ news_article.article.description }}</h4>
 
       </div>
       <!-- news image -->
 
-      <div class="Gimg"><img src="/static/Images/pic1.jpg"></div>
+      <div class="Gimg"><img src="/{{news_article.id}}"></div>
 
       <!-- share icons -->
       <div class="mediabuttons">
@@ -169,76 +110,9 @@
         </div>
       </div>
       <hr>
-
-      <!------------------------------ Repeated content for news -->
       <br>
-      <div class="Gformat">
-
-        <!-- name/time -->
-        <a class="time" href=""><i class="far fa-clock"></i>27 views.June 5</a>
-        <!-- news title -->
-        <a href="GeneralistArticle.html">
-          <h2>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation</h2>
-        </a>
-        <!-- news summary -->
-        <h4>The civil-military brass, according to the sources, held deliberations over several matters, including the
-          country’s security situation and the military’s professional affairs. The meeting took place at the PM’s
-          Office, the sources added. The chief of army staff last met the prime minister in April. “Professional matters
-          about national security were discussed during the meeting,” a statement from the PM Office.</h4>
-
-      </div>
-      <!-- news image -->
-
-      <div class="Gimg"><img src="/static/Images/pic1.jpg"></div>
-
-      <!-- share icons -->
-      <div class="mediabuttons">
-        <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
-        <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
-        <button class="translater" onclick="myFunction()" style="margin-left: 10px;">TRANSLATE NEWS</button>
-        <div id="myDIV">
-          <p>ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج کے پیشہ ورانہ امور سمیت متعدد امور پر
-            تبادلہ خیال کیا۔ ذرائع نے مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار اپریل میں
-            وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق
-            پیشہ ورانہ امور پر تبادلہ خیال کیا گیا۔</p>
-        </div>
-      </div>
-      <hr>
-
+      {% endfor %}
       <!------------------------------ Repeated content for news -->
-      <br>
-      <div class="Gformat">
-
-        <!-- name/time -->
-        <a class="time" href=""><i class="far fa-clock"></i>27 views.June 5</a>
-        <!-- news title -->
-        <a href="GeneralistArticle.html">
-          <h2>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation</h2>
-        </a>
-        <!-- news summary -->
-        <h4>The civil-military brass, according to the sources, held deliberations over several matters, including the
-          country’s security situation and the military’s professional affairs. The meeting took place at the PM’s
-          Office, the sources added. The chief of army staff last met the prime minister in April. “Professional matters
-          about national security were discussed during the meeting,” a statement from the PM Office.</h4>
-
-      </div>
-      <!-- news image -->
-
-      <div class="Gimg"><img src="/static/Images/pic1.jpg"></div>
-
-      <!-- share icons -->
-      <div class="mediabuttons">
-        <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
-        <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
-        <button class="translater" onclick="myFunction()" style="margin-left: 10px;">TRANSLATE NEWS</button>
-        <div id="myDIV">
-          <p>ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج کے پیشہ ورانہ امور سمیت متعدد امور پر
-            تبادلہ خیال کیا۔ ذرائع نے مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار اپریل میں
-            وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق
-            پیشہ ورانہ امور پر تبادلہ خیال کیا گیا۔</p>
-        </div>
-      </div>
-      <!-- last div -->
     </div>
 
     <!-- ******* end -->

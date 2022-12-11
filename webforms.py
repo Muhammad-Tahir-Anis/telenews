@@ -24,3 +24,7 @@ class WriteNewsForm(FlaskForm):
 
 class WritePost(FlaskForm):
     description = TextAreaField("Write here!", validators=[DataRequired()])
+
+class Search(FlaskForm):
+    search = StringField("Search", validators=[DataRequired()])
+    submit = SubmitField("search")

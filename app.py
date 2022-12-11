@@ -2,13 +2,13 @@
 from io import BytesIO
 import os
 from flask import Flask, render_template, request, redirect, url_for, Response, flash, session
-from models import Bookmarks, Comments, Followers, Notifications, Posts, Reports, Types, db, News, Users
+from models import Analytics, Bookmarks, Comments, Followers, Notifications, Posts, Reports, Types, db, News, Users
 from flask_wtf.csrf import CSRFProtect
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 
-from webforms import LoginForm, SignUpForm, WriteNewsForm, WritePost
+from webforms import LoginForm, Search, SignUpForm, WriteNewsForm, WritePost
 
-import numpy as np
+from flask_statistics import Statistics
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -41,12 +41,14 @@ with app.app_context():
 csrf = CSRFProtect()
 csrf.init_app(app)
 
+statistics = Statistics(app, db, Analytics)
 
 @app.route("/")
 def hello_world():
     signup = SignUpForm()
     signin = LoginForm()
-    return render_template("index.html", signup = signup, signin = signin)
+    news = News.query.order_by().all()
+    return render_template("index.html", signup = signup, signin = signin, news = news)
 
 
 @app.route("/logout/<userid>")
@@ -265,12 +267,17 @@ def generalist_news():
     return render_template("GeneralistNews.html")
 
 
-@app.route("/newsSummary")
+@app.route("/newsSummary", methods = ['GET', 'POST'])
 def news_summary():
-    news = News.query.order_by(News.id.desc()).all()
+    form = Search()
+    if form.validate_on_submit():
+        searched = request.form['search']
+        news = News.query.filter(News.title.like('%' + searched + '%'))
+    else:
+        news = News.query.order_by(News.id.desc()).all()
     comments = Comments.query.order_by(Comments.id.desc()).all()
     # comments = Comments.query.order_by(Comments.timestamp.desc()).all()
-    return render_template("NewsSummary.html", news=news, comments = comments)
+    return render_template("NewsSummary.html", news=news, comments = comments, form = form)
 
 @app.route("/add_comment/<news_id>", methods=['GET', 'POST'])
 def add_comment(news_id):

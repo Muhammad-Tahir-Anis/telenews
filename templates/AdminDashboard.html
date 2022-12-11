@@ -51,36 +51,7 @@
 
 <body>
   <section class="GContent" style="background-color: #f2f3f4">
-    <div class="iconbar">
-      <a href="/"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Home"></a>
-      <a href="/Admindashboard"><span class="glyphicon glyphicon glyphicon-th-large icon-size"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Dashboard"></span></a><br>
-      <a href="/Adminnotification"><span class="glyphicon glyphicon-bell icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="Notifications"></span></a><br>
-      <a href="/onlinestatus"><span class="glyphicon glyphicon glyphicon-dashboard icon-size"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Online_Status"></span></a><br>
-      <a href="/Accountdetails"><span class="glyphicon glyphicon glyphicon-stats icon-size"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Registeration_Record"></span></a><br>
-      <a href="/reportednews"><span class="glyphicon glyphicon-list-alt icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="Reported_News"></span></a><br>
-      <a href="/reportedComments"><span class="glyphicon glyphicon glyphicon-comment icon-size"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Comments_Report"></span></a><br>
-      <div class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action">
-          <img class="profile-pic" src="/static/Images/profile3.jpeg"></a>
-        <div class="dropdown-menu"
-          style="margin-left: -90%; padding: 50%; margin-top: -140%;position: absolute;margin-right: 0px; padding-right: 0px;">
-          <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a><br><br>
-          <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a><br><br>
-          <div class="dropdown-divider"></div>
-          <a href="/logout" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-        </div>
-      </div>
-
-
-
-    </div>
+    {% include 'left_admin_menu.html' %}
     <!-- **********end -->
     <!-- *********************************************************************** all Activity show here   -->
     <div class="G1" style="width: 94%;padding-left: 5%;padding-right: 5%; "><br>
@@ -119,7 +90,7 @@
                 <h3 class="rate-percentage">68.8</h3>
                 <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>68.8</span></p>
               </div>
-              <div class="d-none d-md-block" id="webact1" style="margin-left: 52%;">
+              <div class="d-none d-md-block" id="webact1" style="margin-left: 0%;">
                 <p class="statistics-title">Avg. Time on News</p>
                 <h3 class="rate-percentage">4m:35s</h3>
                 <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
@@ -129,37 +100,29 @@
                 <h3 class="rate-percentage">2m:35s</h3>
                 <p class="text-success d-flex"><i class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
               </div>
+              <div class="card" id="webact1" style="width: max-content;">
+                <div class="card-body">
+                  <h4 class="card-title"><b>Visitors from Pakistan</h4>
+                  <div class="template-demo">
+                    <div class="progress progress-md">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="card-title"><b>Visitors from other countries</h4>
+                    <div class="progress progress-md">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 20%" aria-valuenow="20"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- end -->
         <!-- Progress bar that show who view website form pakistan-->
-        <div class="page-content page-container" id="page-content" style="float: left; margin-top: -25%;">
-          <div class="padding">
-            <div class="row container d-flex justify-content-center">
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card" id="webprog">
-                  <div class="card-body">
-                    <h4 class="card-title"><b>Visitors from Pakistan</h4>
-                    <div class="template-demo">
-                      <div class="progress progress-md">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <h4 class="card-title"><b>Visitors from other countries</h4>
-                      <div class="progress progress-md">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 20%" aria-valuenow="20"
-                          aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-            </div>
-          </div>
-        </div>
         <br><br><br><br>
         <hr><br>
         <!-- end -->

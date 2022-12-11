@@ -4,23 +4,12 @@
         ><button class="buttonN1">News Summary</button></a>
       <a href="/generalistNews"
         ><button class="buttonA1">News Articles</button></a>
-      <div class="form-outline">
-        <input
-          style="
-            width: 98%;
-            margin-left: 10px;
-            height: 40px;
-            border-radius: 30px;
-            margin-top: 14%;
-            margin-bottom: 8%;
-          "
-          type="search"
-          id="form1"
-          class="form-control"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </div>
+      <form action="{{ url_for('news_summary') }}", method="post">
+        <div class="form-group d-flex align-items-center">
+          {{ form.search(class = "w-100 my-5 form-control mx-5 rounded-pill", placeholder= form.search.label.text) }}
+          {{ form.submit(class = "btn btn-secondary form-control h-25 w-25 align-self-center") }}
+        </div>
+      </form>
       <hr />
       <div class="pb-3">
         <div class="mb-3">
@@ -73,7 +62,6 @@
               margin-bottom: 7px;
               color: lightgray;
             "/>
-
           {% endfor %}
           <a href="">The relationship between the current document. </a>
           <hr
