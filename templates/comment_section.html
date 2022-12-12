@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-7">
                         <h2 class="pull-left" style="margin-top: -0.6%">
-                            {{ comments|length }} Comments
+                            Comments
                         </h2>
                         <form method="post" action="{{ url_for('add_comment', news_id=each_news.id) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
