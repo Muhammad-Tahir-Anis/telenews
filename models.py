@@ -33,9 +33,9 @@ class Posts(db.Model):
     created_at = Column(DateTime, server_default = func.now(), nullable=False)
     updated_at = Column(DateTime, server_default = func.now(), server_onupdate = func.now(), nullable=False)
     
-    article = db.relationship('News', backref=backref('article'), cascade = "all, delete")
-    post = db.relationship('Reports', backref=backref('post'), cascade = "all, delete")
-    comment_post = db.relationship('Comments', backref=backref('comment_post'), cascade = "all, delete")
+    article = db.relationship('News', backref=backref('article'), cascade = 'all, delete')
+    post = db.relationship('Reports', backref=backref('post'), cascade = 'all, delete')
+    comment_post = db.relationship('Comments', backref=backref('comment_post'), cascade = 'all, delete')
 
 class News(db.Model):
     id = Column(Integer, primary_key = True)
@@ -45,7 +45,7 @@ class News(db.Model):
     image = Column(BLOB, nullable=False)
     mimetype = Column(String, nullable=False)
 
-    commented_news = db.relationship('Comments', backref = backref('commented_news'), cascade = "all, delete")
+    commented_news = db.relationship('Comments', backref = backref('commented_news'), cascade = 'all, delete')
 
 class Comments(db.Model):
     id = Column(Integer, primary_key = True)
@@ -55,12 +55,12 @@ class Comments(db.Model):
 class Types(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable=False)
-    type = db.relationship('Posts', backref=backref('type'))
+    type = db.relationship('Posts', backref=backref('type'), cascade = 'all, delete')
 
 class Categories(db.Model):
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable=False)
-    category = db.relationship('News', backref=backref('category'))
+    category = db.relationship('News', backref=backref('category'), cascade = 'all, delete')
 
 
 class Roles(db.Model):
@@ -87,7 +87,7 @@ class Bookmarks(db.Model):
     bookmarker_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
 
-    news = db.relationship('News', backref=db.backref('news', uselist=False))
+    news = db.relationship('News', backref=db.backref('news', uselist=False), cascade = 'all, delete')
 
 class Notifications(db.Model):
     id = Column(Integer, primary_key = True)

@@ -100,11 +100,11 @@
                                         <td>{{article.article.created_at}}</td>
                                         <td>{{article.title}}</td>
                                         <td>
-                                            <a href="#" class="view" title="View Article" data-toggle="tooltip"><i
+                                            <a href="{{ url_for('summary_view', news_id=article.id) }}" class="view" title="View Article" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE417;</i></a>
                                             <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete Article" data-toggle="tooltip"><i
+                                            <a href="{{ url_for('delete_news', post_id = article.article.id)}}" class="delete" title="Delete Article" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE5C9;</i></a>
                                         </td>
                                     </tr>

@@ -48,8 +48,14 @@ def hello_world():
     signup = SignUpForm()
     signin = LoginForm()
     news = News.query.order_by().all()
+    if not current_user.is_anonymous:
+        if current_user.username == 'admin':
+            return redirect('/Admindashboard')
     return render_template("index.html", signup = signup, signin = signin, news = news)
 
+@app.route('/statistics')
+def statistics():
+    return redirect('/statistics')
 
 @app.route("/logout/<userid>")
 @login_required
@@ -313,12 +319,27 @@ def delete_comment(post_id):
     db.session.commit()
     return redirect('/newsSummary')
 
+@app.route('/delete_news/<post_id>')
+def delete_news(post_id):
+    print(post_id)
+    post = Posts.query.filter_by(id = post_id).first()
+    news = News.query.filter_by(article = post).first()
+    message = f'Your news {news.title} deleted!'
+    print(news.title)
+    notifications = Notifications(notifier_id = post.poster.id, activity = message)
+
+    db.session.delete(post)
+    db.session.add(notifications)
+    db.session.commit()
+    return redirect('/Adminnotification')
+
 @app.route('/report_comment/<comment_id>')
 def report_comment(comment_id):
     comment = Comments.query.filter_by(id = comment_id).first()
     report = Reports(reporter_id = current_user.id, post_id = comment.comment_post.id, reason = "None")
     message = f'Your comment on post {comment.commented_news.title} is reported!'
     notification = Notifications(notifier_id = current_user.id, activity = message)
+    
     db.session.add(report)
     db.session.add(notification)
     db.session.commit()
