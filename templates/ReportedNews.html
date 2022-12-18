@@ -75,12 +75,12 @@
                                     <div class="col-sm-8">
                                         <h2 style="color: white;">Reported News <b>Details</b></h2>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         <div class="search-box">
                                             <i class="material-icons" style="margin-left: 80%;">&#xE8B6;</i>
                                             <input type="text" class="form-control" placeholder="Search&hellip;">
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <table class="table table-striped table-hover table-bordered">
@@ -95,180 +95,64 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for reported_news, reason in news %}
                                     <tr>
-                                        <td>1</td>
-                                        <td>8</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Rules Violation</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
+                                        <td>{{ news.index([reported_news, reason]) }}</td>
+                                        <td>{{ reported_news.post_id }}</td>
+                                        <td>{{ reported_news.title }}</td>
+                                        <td>{{ reason }}</td>
+                                        <td>{{ reported_news.article.poster.username }}</td>
+                                        <td class="d-flex">
+                                            <a href="{{ url_for('summary_view', news_id = reported_news.id ) }}"
+                                                class="view" title="View News" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    {% for reported_news in news %}
-                                    <tr>
-                                        <td>{{ index(reported_news) }}</td>
-                                        <td>{{ reported_news.post.id }}</td>
-                                        <td>ok</td>
-                                        <td>Rules Violation</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
+                                            <!-- <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE254;</i></a> -->
+                                            <form
+                                                action="{{ url_for('writenote', id = reported_news.article.poster.id, current_url = request.path) }}"
+                                                method="post">
+                                                <!-- Button trigger modal -->
+                                                <a href="" class="edit" title="Write Note" data-toggle="modal"
+                                                    data-target="#replyModal">
+                                                    <i class="material-icons">&#xE254;</i>
+                                                </a>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="replyModal" tabindex="-1"
+                                                    aria-labelledby="replyModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="replyModalLabel">Note</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body flex-col">
+                                                                {{ note_form.note(class="m-1 form-control
+                                                                form-control-lg", placeholder=note_form.note.label.text)
+                                                                }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                                {{ note_form.submit(class="btn btn-primary")}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            
+                                            <a href="{{ url_for('delete_news', post_id = reported_news.post_id ) }}"
+                                                class="delete" title="Delete News" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                     {% endfor %}
-                                    <tr>
-                                        <td>3</td>
-                                        <td>18</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Rules Violation</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>3</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Harassment</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>81</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>8</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>8</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>18</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>8</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>8</td>
-                                        <td>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation
-                                        </td>
-                                        <td>Spam</td>
-                                        <td>Anisa507</td>
-                                        <td>
-                                            <a href="#" class="view" title="View News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
-                                            <a href="#" class="delete" title="Delete News" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE872;</i></a>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <div class="hint-text">Showing <b>10</b> out of <b>15</b> reported details</div>
-                                <ul class="pagination">
-                                    <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"
-                                                style="margin-top: -8px;"></i></a></li>
-                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                    <li class="page-item active"><a href="#" class="page-link"><i
-                                                class="fa fa-angle-double-right" style="margin-top: -8px;"></i></a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
