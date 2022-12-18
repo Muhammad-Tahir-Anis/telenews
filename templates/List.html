@@ -79,21 +79,11 @@
                 {% for bookmark in bookmarks %}
                 <h5 class="marklist">{{bookmark.news.title}}</h5>
 
-                <a href="{{ url_for('unbookmark',bookmark_id = bookmark.id) }}" style="font-size: 20px;"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
+                <a href="{{ url_for('unbookmark',bookmark_id = bookmark.id) }}" style="font-size: 20px;"><i
+                    class="fa fa-bookmark" aria-hidden="true"></i></a>
                 <hr style="color:lightgray">
                 <!-- repeated -->
                 {% endfor %}
-                <h5 class="marklist" style="margin-right: 46%">WhatsApp to allow users to hide online status...</h5>
-
-                <a href="#" style="font-size: 20px; "><i class="fa fa-bookmark" aria-hidden="true"></i></a>
-                <hr style="color:lightgray">
-
-                <!-- repeated -->
-
-                <h5 class="marklist">PM Shehbaz, General Qamar Javed Bajwa discuss national security...</h5>
-
-                <a href="#" style="font-size: 20px;"><i class="fa fa-bookmark" aria-hidden="true"></i></a>
-                <hr style="color:lightgray">
               </div>
 
             </div>
@@ -106,19 +96,11 @@
           <div id="collapse2" class="panel-collapse collapse">
             <div class="panel-body" style="border-style: none;">
               <!-- newshistory List -->
-              <h5 class="marklist" style="font-weight: bold;">PM Shehbaz, General Qamar Javed Bajwa discuss national
-                security...</h5>
-              <a href="#" style="font-size: 20px;" data-tooltip="Account Security"><i
-                  class="fa fa-fw fa-ellipsis-h"></i></a>
+              {% for news, history in history_list %}
+              <a href="/summaryview/{{news.id}}" class="marklist" style="font-weight: bold; margin-right: 46%">{{ news.title }}</a>
+              <p>{{history.created_at}}</p>
               <hr style="color:lightgray">
-
-              <!-- repeated -->
-
-              <h5 class="marklist" style="font-weight: bold; margin-right: 46%">WhatsApp to allow users to hide online
-                status...</h5>
-              <a href="#" style="font-size: 20px;" data-tooltip="Account Security"><i
-                  class="fa fa-fw fa-ellipsis-h"></i></a>
-              <hr style="color:lightgray">
+              {% endfor %}
             </div>
           </div>
         </div>

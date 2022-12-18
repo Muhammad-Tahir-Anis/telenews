@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>YourNewsArticle</title>
+  <title>Follower_List</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,15 +10,15 @@
   <link rel="stylesheet" type="text/css" href="/static/style.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
+
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -29,7 +29,6 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-  <!-- for toolkit -->
   <script type="text/javascript">
     $(document).ready(function () {
       $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
@@ -38,6 +37,7 @@
     });
   </script>
 
+
 </head>
 
 <body>
@@ -45,18 +45,12 @@
   <section class="GContent">
     {% include 'left_user_menu.html' %}
 
-
-
-    <!-- **********end -->
-
-
-    <!-- *********************************************************************** all generlaist content show  -->
-
     <div class="G1">
       <h1>Your News Articles</h1>
-      <!-- <button class="button button2" style="width: 19%; margin-top: -46px;">Import a news</button> -->
       <a href="/writenews"><button class="button button2" style="width: 19%; margin-top: -46px;">Write a
-          news</button></a>
+          news</button>
+      </a>
+
       <div class="panel-heading" style="margin-top: 23px;">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Drafts</a>
@@ -78,27 +72,39 @@
         <div class="panel panel-default">
           <div id="collapse1" class="panel-collapse collapse in">
             <div class="panel-body" style="border-style: none;">
-              <div class="Fformat">
-                <!-- profile icon -->
-                <h6 style="text-align: center; padding: 8% 9%; font-size: 16px;"> You have no drafts.<br><br><br>
-                  <a style="cursor: pointer;">Write</a> a news article or <a style="cursor: pointer;">read</a> on
-                  Telescope.
+              <div class="follow">
+                {% for draft in draft_news %}
+                <div>
+                  <form action="{{ url_for('view_draft', news_id = draft.id) }}">
+                    <div class="alert alert-info">
+                      <p>{{ draft.title}}</p>
+                      <p style="text-align: right;"> {{ draft_form.view }}</p>
+                    </div>
+                  </form>
+                </div>
+                {% endfor %}
+                <h6 style="text-align: center; font-size: 16px;">
+                  <a href="/writenews" class="font-italic" style="cursor: pointer;">Write a news article</a> or <a
+                    href="/generalistNews" class="font-italic" style="cursor: pointer;">read on
+                    Telescope.</a>
                 </h6>
-
               </div>
-
             </div>
           </div>
-
         </div>
 
-        <!-- ******************************************************************following -->
         <div class="panel panel-default">
           <div id="collapse2" class="panel-collapse collapse">
             <div class="panel-body" style="border-style: none;">
-              <!-- newshistory List -->
-              <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t published any public News
-                yet.</h6>
+              <div class="follow">
+                {% for news in published_news %}
+                <div>
+                  <div class="alert alert-success">
+                    <a href="{{ url_for('summary_view', news_id = news.id)}}">{{ news.title}}</a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
 
             </div>
           </div>
@@ -106,26 +112,25 @@
         <div class="panel panel-default">
           <div id="collapse3" class="panel-collapse collapse">
             <div class="panel-body" style="border-style: none;">
-              <!-- newshistory List -->
-              <h6 style="text-align: center; padding: 10% 9%; font-size: 16px;"> You haven’t any respose yet.</h6>
-
+              <div class="follow">
+                {% for news in responded_news %}
+                <div>
+                  <div class="alert alert-info">
+                    <a href="{{ url_for('summary_view', news_id = news.id)}}">{{ news.title}}</a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
-
-    <!-- ******* end -->
-
     <!-- ***********************************************************************2nd generalist tag info Start -->
     {% include 'right_following_menu.html' %}
     <!-- ******* end -->
 
   </section>
-
-
 </body>
 
 </html>

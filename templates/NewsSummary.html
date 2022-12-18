@@ -1,152 +1,893 @@
 {% extends 'base.html' %}
 {% block main %}
 <section class="GContent">
-  {% include 'left_user_menu.html' %}
-  <!-- **********end -->
-  <!-- *********************************************************************** all generlaist content show  -->
-  <div class="G1">
-    <br /><br />
-    {% for each_news in news %}
-    <div class="Gformat">
-      <!-- name/time -->
-      <a class="time" href=""><i class="far fa-clock"></i>27 views.{{ each_news.article.created_at }}</a>
-      <!-- news title -->
-      <a href="{{ url_for('summary_view', news_id=each_news.id) }}" id="{{each_news.id}}">
-        <h2>{{ each_news.title }}</h2>
-      </a>
-      <!-- news summary -->
-      <h4>{{ each_news.article.description }}</h4>
-
-      <!-- news image -->
-
-      <!-- <div class="Gimg"><img src="/static/Images/pic1.jpg" /></div> -->
-
-      <!-- share icons -->
-      <div class="mediabuttons">
-        <div class="flex">
-          <button class="btn btn-secondary" onclick="myFunction()">
-            TRANSLATE NEWS
-          </button>
-          <button class="btn btn-secondary" onclick="hiFunction('ComDIV_{{ each_news.id }}')">
-            COMMENTS
-          </button>
+    {% include 'left_user_menu.html' %}
+    <!-- **********end -->
+    <!-- *********************************************************************** all generlaist content show  -->
+    <div class="G1">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Recommended</a>
+            </h4>
         </div>
-        <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
-
-        <a class="active" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
-        <div class="dropdown-menu">
-          <a href="whatsapp://send?text=This is WhatsApp sharing example using link" data-action="share/whatsapp/share"
-            target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i>
-          </a>
-
-          <div id="fb-root"></div>
-          <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v15.0" nonce="gAKRLC1v">
-            </script>
-          <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width=""
-            data-layout="button" data-action="like" data-size="small" data-share="true"></div>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Following</a>
+            </h4>
         </div>
+        <hr>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body" style="border-style: none;">
+                        <div class="Gformat">
+                            <!-- profile icon -->
+                            <img src="/static/Images/p1.jpg">
+                            <!-- name/time -->
+                            <h5>Nimi Rana&nbsp;.&nbsp;</h5>
+                            <p class="time" style="color: darkgray;">2 days ago</p>
+                            <!-- news title -->
+                            <a href="/articleView">
+                                <h2>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation</h2>
+                            </a>
+                            <!-- news summary -->
+                            <h4>The civil-military brass, according to the sources, held deliberations over several
+                                matters, including the country’s security situation and military’s professional
+                                affairs. The meeting took place at the PM’s Office, the sources added. The chief of
+                                army staff last met the prime minister in April. “Professional matters pertaining to
+                                national security were discussed during the meeting,” a statement from the PM Office
+                                said....</h4>
 
-        <a href="{{url_for('bookmark',news_id = each_news.id)}}"><i class="fa fa-bookmark"
-            aria-hidden="true"></i>&nbsp;BOOKMARK</a>
-        <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
-      </div>
-      <div>
-        <div id="myDIV">
-          <p>
-            ذرائع کے مطابق سول ملٹری براس نے ملکی سلامتی کی صورتحال اور فوج
-            کے پیشہ ورانہ امور سمیت متعدد امور پر تبادلہ خیال کیا۔ ذرائع نے
-            مزید بتایا کہ ملاقات وزیراعظم آفس میں ہوئی۔ آرمی چیف نے آخری بار
-            اپریل میں وزیراعظم سے ملاقات کی تھی۔ وزیر اعظم آفس سے جاری بیان
-            میں کہا گیا ہے کہ ملاقات کے دوران قومی سلامتی سے متعلق پیشہ
-            ورانہ امور پر تبادلہ خیال کیا `گیا۔
-          </p>
+                        </div>
+                        <!-- news image -->
+
+                        <div class="Gimg"><img src="/static/Images/pic1.jpg"></div>
+
+                        <!-- share icons -->
+                        <div class="mediabuttons">
+                            <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+                            <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+                            <a href="#"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+                            <a class="active" href="#"><i class="fa fa-volume-up"
+                                    aria-hidden="true"></i>&nbsp;LISTEN</a>
+                            <!-- Comment section news -->
+                            <button class="translate" onclick="myFunction()">COMMENTS</button>
+                            <div id="ComDIV">
+
+                                <div class="com">
+                                    <section class="content-item" id="comments">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-7">
+                                                    <form>
+                                                        <h2 class="pull-left" style=" margin-top: -0.6%;">4 Comments
+                                                        </h2>
+                                                        <button type="submit"
+                                                            class="btn btn-normal pull-right">Submit</button>
+                                                        <fieldset>
+                                                            <div class="row">
+                                                                <div class="col-sm-3 col-lg-2 hidden-xs">
+                                                                    <img class="img-responsive"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                                                    <textarea class="form-control" id="message"
+                                                                        placeholder="Add a comment..."
+                                                                        required=""></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+
+                                                    <!--                 <h3>4 Comments</h3> -->
+
+                                                    <!-- COMMENT 1 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>The chief of army staff last met the prime minister
+                                                                in April</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 1 - END -->
+
+                                                    <!-- COMMENT 2 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>which was their first meeting after the premier was
+                                                                elected to office.</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 2 - END -->
+
+                                                    <!-- COMMENT 3 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>The civil-military brass, according to the sources,
+                                                                held deliberations over several matters, including
+                                                                the country’s security situation and the military’s
+                                                                professional affairs.</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 3 - END -->
+
+                                                    <!-- COMMENT 4 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>Great job</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 4 - END -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="Gformat">
+                        <!-- profile icon -->
+                        <img src="/static/Images/p1.jpg">
+                        <!-- name/time -->
+                        <h5>Nimi Rana&nbsp;.&nbsp;</h5>
+                        <p class="time" style="color: darkgray;">2 days ago</p>
+                        <!-- news title -->
+                        <a href="#">
+                            <h2>PM Shehbaz, General Qamar Javed Bajwa discuss national security situation</h2>
+                        </a>
+                        <!-- news summary -->
+                        <h4>The civil-military brass, according to the sources, held deliberations over several
+                            matters, including the country’s security situation and military’s professional affairs.
+                            The meeting took place at the PM’s Office, the sources added. The chief of army staff
+                            last met the prime minister in April. “Professional matters pertaining to national
+                            security were discussed during the meeting,” a statement from the PM Office said....
+                        </h4>
+
+                    </div>
+                    <!-- news image -->
+
+                    <div class="Gimg"><img src="/static/Images/pic1.jpg"></div>
+
+                    <!-- share icons -->
+                    <div class="mediabuttons">
+                        <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+                        <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+                        <a href="#"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+                        <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
+                        <!-- Comment section news -->
+                        <button class="translate" onclick="myFunction()">COMMENTS</button>
+                        <div id="ComDIV">
+
+                            <div class="com">
+                                <section class="content-item" id="comments">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <form>
+                                                    <h2 class="pull-left" style=" margin-top: -0.6%;">4 Comments
+                                                    </h2>
+                                                    <button type="submit"
+                                                        class="btn btn-normal pull-right">Submit</button>
+                                                    <fieldset>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-lg-2 hidden-xs">
+                                                                <img class="img-responsive"
+                                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                                                <textarea class="form-control" id="message"
+                                                                    placeholder="Add a comment..."
+                                                                    required=""></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+
+                                                <!--                 <h3>4 Comments</h3> -->
+
+                                                <!-- COMMENT 1 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>The chief of army staff last met the prime minister in
+                                                            April</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 1 - END -->
+
+                                                <!-- COMMENT 2 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>which was their first meeting after the premier was
+                                                            elected to office.</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 2 - END -->
+
+                                                <!-- COMMENT 3 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>The civil-military brass, according to the sources, held
+                                                            deliberations over several matters, including the
+                                                            country’s security situation and the military’s
+                                                            professional affairs.</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 3 - END -->
+
+                                                <!-- COMMENT 4 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>Great job</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 4 - END -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- ******************************************************************following -->
+            <div class="panel panel-default">
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body" style="border-style: none;">
+                        <div class="Gformat">
+                            <!-- profile icon -->
+                            <img src="/static/Images/pic2.jpg">
+                            <!-- name/time -->
+                            <h5>Aniza Raza&nbsp;.&nbsp;</h5>
+                            <p class="time" style="color: darkgray;">6 days ago</p>
+                            <!-- news title -->
+                            <a href="#">
+                                <h2>WhatsApp to allow users to hide online status</h2>
+                            </a>
+                            <!-- news summary -->
+                            <h4>Meta-owned instant messaging app WhatsApp is developing a new feature that allows
+                                users to hide their online status, WABetainfo reported.
+
+                                According to the WhatsApp news tracker, the platform is working on the ability to
+                                hide the online status. The platform is working on bringing this feature in a future
+                                release of the app.o.....</h4>
+
+                        </div>
+                        <!-- news image -->
+
+                        <div class="Gimg"><img src="/static/Images/pic2.jpg"></div>
+
+                        <!-- share icons -->
+                        <div class="mediabuttons">
+                            <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+                            <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+                            <a href="#"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+                            <a class="active" href="#"><i class="fa fa-volume-up"
+                                    aria-hidden="true"></i>&nbsp;LISTEN</a>
+                            <!-- Comment section news -->
+                            <button class="translate" onclick="myFunction()">COMMENTS</button>
+                            <div id="ComDIV">
+
+                                <div class="com">
+                                    <section class="content-item" id="comments">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-sm-7">
+                                                    <form>
+                                                        <h2 class="pull-left" style=" margin-top: -0.6%;">4 Comments
+                                                        </h2>
+                                                        <button type="submit"
+                                                            class="btn btn-normal pull-right">Submit</button>
+                                                        <fieldset>
+                                                            <div class="row">
+                                                                <div class="col-sm-3 col-lg-2 hidden-xs">
+                                                                    <img class="img-responsive"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                                                    <textarea class="form-control" id="message"
+                                                                        placeholder="Add a comment..."
+                                                                        required=""></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </form>
+
+                                                    <!--                 <h3>4 Comments</h3> -->
+
+                                                    <!-- COMMENT 1 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>The chief of army staff last met the prime minister
+                                                                in April</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 1 - END -->
+
+                                                    <!-- COMMENT 2 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>which was their first meeting after the premier was
+                                                                elected to office.</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 2 - END -->
+
+                                                    <!-- COMMENT 3 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>The civil-military brass, according to the sources,
+                                                                held deliberations over several matters, including
+                                                                the country’s security situation and the military’s
+                                                                professional affairs.</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 3 - END -->
+
+                                                    <!-- COMMENT 4 - START -->
+                                                    <div class="media">
+                                                        <a class="pull-left" href="#"><img class="media-object"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                                alt=""></a>
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">John Doe</h4>
+                                                            <p>Great job</p>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-left">
+                                                                <li><i class="far fa-clock"></i>2 d</li>
+                                                                <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                            </ul>
+                                                            <ul
+                                                                class="list-unstyled list-inline media-detail pull-right">
+                                                                <li class=""><a href="">Reply</a></li>
+                                                                <li class=""><a href="">Report</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!-- COMMENT 4 - END -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- repeated  rowwwwww-->
+                    <div class="Gformat">
+                        <!-- profile icon -->
+                        <img src="/static/Images/pic2.jpg">
+                        <!-- name/time -->
+                        <h5>Aniza Raza&nbsp;.&nbsp;</h5>
+                        <p class="time" style="color: darkgray;">6 days ago</p>
+                        <!-- news title -->
+                        <a href="#">
+                            <h2>WhatsApp to allow users to hide online status</h2>
+                        </a>
+                        <!-- news summary -->
+                        <h4>Meta-owned instant messaging app WhatsApp is developing a new feature that allows users
+                            to hide their online status, WABetainfo reported.
+
+                            According to the WhatsApp news tracker, the platform is working on the ability to hide
+                            the online status. The platform is working on bringing this feature in a future release
+                            of the app.o.....</h4>
+
+                    </div>
+                    <!-- news image -->
+
+                    <div class="Gimg"><img src="/static/Images/pic2.jpg"></div>
+
+                    <!-- share icons -->
+                    <div class="mediabuttons">
+                        <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+                        <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+                        <a href="#"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+                        <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
+                        <!-- Comment section news -->
+                        <button class="translate" onclick="myFunction()">COMMENTS</button>
+                        <div id="ComDIV">
+
+                            <div class="com">
+                                <section class="content-item" id="comments">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <form>
+                                                    <h2 class="pull-left" style=" margin-top: -0.6%;">4 Comments
+                                                    </h2>
+                                                    <button type="submit"
+                                                        class="btn btn-normal pull-right">Submit</button>
+                                                    <fieldset>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-lg-2 hidden-xs">
+                                                                <img class="img-responsive"
+                                                                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                    alt="">
+                                                            </div>
+                                                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                                                <textarea class="form-control" id="message"
+                                                                    placeholder="Add a comment..."
+                                                                    required=""></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
+
+                                                <!--                 <h3>4 Comments</h3> -->
+
+                                                <!-- COMMENT 1 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>The chief of army staff last met the prime minister in
+                                                            April</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 1 - END -->
+
+                                                <!-- COMMENT 2 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>which was their first meeting after the premier was
+                                                            elected to office.</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 2 - END -->
+
+                                                <!-- COMMENT 3 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>The civil-military brass, according to the sources, held
+                                                            deliberations over several matters, including the
+                                                            country’s security situation and the military’s
+                                                            professional affairs.</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 3 - END -->
+
+                                                <!-- COMMENT 4 - START -->
+                                                <div class="media">
+                                                    <a class="pull-left" href="#"><img class="media-object"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                            alt=""></a>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading">John Doe</h4>
+                                                        <p>Great job</p>
+                                                        <ul class="list-unstyled list-inline media-detail pull-left">
+                                                            <li><i class="far fa-clock"></i>2 d</li>
+                                                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                        </ul>
+                                                        <ul class="list-unstyled list-inline media-detail pull-right">
+                                                            <li class=""><a href="">Reply</a></li>
+                                                            <li class=""><a href="">Report</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!-- COMMENT 4 - END -->
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+
+
+                <!--repeated Rowww  -->
+                <hr>
+                <div class="Gformat">
+                    <!-- profile icon -->
+                    <img src="/static/Images/pic2.jpg">
+                    <!-- name/time -->
+                    <h5>Aniza Raza&nbsp;.&nbsp;</h5>
+                    <p class="time" style="color: darkgray;">6 days ago</p>
+                    <!-- news title -->
+                    <a href="#">
+                        <h2>WhatsApp to allow users to hide online status</h2>
+                    </a>
+                    <!-- news summary -->
+                    <h4>Meta-owned instant messaging app WhatsApp is developing a new feature that allows users to
+                        hide their online status, WABetainfo reported.
+
+                        According to the WhatsApp news tracker, the platform is working on the ability to hide the
+                        online status. The platform is working on bringing this feature in a future release of the
+                        app.o.....</h4>
+
+                </div>
+                <!-- news image -->
+
+                <div class="Gimg"><img src="/static/Images/pic3.png"></div>
+
+                <!-- share icons -->
+                <div class="mediabuttons">
+                    <a href="#" data-tooltip="Account Security"><i class="fa fa-fw fa-ellipsis-h"></i></a>
+                    <a class="active" href="#"><i class="fa fa-fw fa-share"></i>&nbsp;SHARE</a>
+                    <a href="#"><i class="fa fa-bookmark" aria-hidden="true"></i>&nbsp;BOOKMARK</a>
+                    <a class="active" href="#"><i class="fa fa-volume-up" aria-hidden="true"></i>&nbsp;LISTEN</a>
+                    <!-- Comment section news -->
+                    <button class="translate" onclick="myFunction()">COMMENTS</button>
+                    <div id="ComDIV">
+
+                        <div class="com">
+                            <section class="content-item" id="comments">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <form>
+                                                <h2 class="pull-left" style=" margin-top: -0.6%;">4 Comments</h2>
+                                                <button type="submit" class="btn btn-normal pull-right">Submit</button>
+                                                <fieldset>
+                                                    <div class="row">
+                                                        <div class="col-sm-3 col-lg-2 hidden-xs">
+                                                            <img class="img-responsive"
+                                                                src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                alt="">
+                                                        </div>
+                                                        <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                                            <textarea class="form-control" id="message"
+                                                                placeholder="Add a comment..." required=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+
+                                            <!--                 <h3>4 Comments</h3> -->
+
+                                            <!-- COMMENT 1 - START -->
+                                            <div class="media">
+                                                <a class="pull-left" href="#"><img class="media-object"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                        alt=""></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">John Doe</h4>
+                                                    <p>The chief of army staff last met the prime minister in April
+                                                    </p>
+                                                    <ul class="list-unstyled list-inline media-detail pull-left">
+                                                        <li><i class="far fa-clock"></i>2 d</li>
+                                                        <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                    </ul>
+                                                    <ul class="list-unstyled list-inline media-detail pull-right">
+                                                        <li class=""><a href="">Reply</a></li>
+                                                        <li class=""><a href="">Report</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- COMMENT 1 - END -->
+
+                                            <!-- COMMENT 2 - START -->
+                                            <div class="media">
+                                                <a class="pull-left" href="#"><img class="media-object"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                        alt=""></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">John Doe</h4>
+                                                    <p>which was their first meeting after the premier was elected
+                                                        to office.</p>
+                                                    <ul class="list-unstyled list-inline media-detail pull-left">
+                                                        <li><i class="far fa-clock"></i>2 d</li>
+                                                        <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                    </ul>
+                                                    <ul class="list-unstyled list-inline media-detail pull-right">
+                                                        <li class=""><a href="">Reply</a></li>
+                                                        <li class=""><a href="">Report</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- COMMENT 2 - END -->
+
+                                            <!-- COMMENT 3 - START -->
+                                            <div class="media">
+                                                <a class="pull-left" href="#"><img class="media-object"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                        alt=""></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">John Doe</h4>
+                                                    <p>The civil-military brass, according to the sources, held
+                                                        deliberations over several matters, including the country’s
+                                                        security situation and the military’s professional affairs.
+                                                    </p>
+                                                    <ul class="list-unstyled list-inline media-detail pull-left">
+                                                        <li><i class="far fa-clock"></i>2 d</li>
+                                                        <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                    </ul>
+                                                    <ul class="list-unstyled list-inline media-detail pull-right">
+                                                        <li class=""><a href="">Reply</a></li>
+                                                        <li class=""><a href="">Report</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- COMMENT 3 - END -->
+
+                                            <!-- COMMENT 4 - START -->
+                                            <div class="media">
+                                                <a class="pull-left" href="#"><img class="media-object"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                        alt=""></a>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading">John Doe</h4>
+                                                    <p>Great job</p>
+                                                    <ul class="list-unstyled list-inline media-detail pull-left">
+                                                        <li><i class="far fa-clock"></i>2 d</li>
+                                                        <li><i class="fa fa-thumbs-up"></i>13</li>
+                                                    </ul>
+                                                    <ul class="list-unstyled list-inline media-detail pull-right">
+                                                        <li class=""><a href="">Reply</a></li>
+                                                        <li class=""><a href="">Report</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- COMMENT 4 - END -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <!-- Comment section news -->
-        {% include 'comment_section.html' %}
-      </div>
     </div>
-    <hr />
-    {% endfor %}
-  </div>
-  <!-- ******* end -->
-  <!-- *********************************************************************** generalist tag info Start -->
-  {% include 'right_popular_news.html'%}
-  <!-- ******* end -->
+
+
+    <!-- ******* end -->
+
+    <!-- *********************************************************************** generalist tag info Start -->
+    {% include 'right_popular_news.html' %}
+    <!-- ******* end -->
 </section>
-<!-- for comment section news -->
-<script>
-  function hiFunction(value) {
-    var x = document.getElementById(value);
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
-  }
-</script>
+
 <!-- for translated news -->
 <script>
-  function myFunction() {
-    var x = document.getElementById("myDIV");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
+    function myFunction() {
+        var x = document.getElementById("ComDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
-  }
 </script>
 
 <!-- for follow button  -->
 <script type="text/javascript">
-  $(document).ready(function () {
-    $("#follow-button").click(function () {
-      if ($("#follow-button").text() == "+ Follow") {
-        // *** State Change: To Following ***
-        // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms
-        $("#follow-button").animate(
-          { width: "-=10px" },
-          100,
-          "easeInCubic",
-          function () { }
-        );
+    $(document).ready(function () {
 
-        // then now we want the button to expand out to it's full state
-        // The left translation is to keep the button centred with it's longer width
-        $("#follow-button").animate(
-          { width: "+=45px", left: "-=15px" },
-          600,
-          "easeInOutBack",
-          function () {
-            $("#follow-button").css("color", "#fff");
-            $("#follow-button").text("Following");
+        $("#follow-button").click(function () {
+            if ($("#follow-button").text() == "+ Follow") {
+                // *** State Change: To Following ***      
+                // We want the button to squish (or shrink) by 10px as a reaction to the click and for it to last 100ms    
+                $("#follow-button").animate({ width: '-=10px' }, 100, 'easeInCubic', function () { });
 
-            // Animate the background transition from white to green. Using JQuery Color
-            $("#follow-button").animate(
-              {
-                backgroundColor: "#2EB82E",
-                borderColor: "#2EB82E",
-              },
-              1000
-            );
-          }
-        );
-      } else {
-        // *** State Change: Unfollow ***
-        // Change the button back to it's original state
-        $("#follow-button").animate(
-          { width: "-=25px", left: "+=15px" },
-          600,
-          "easeInOutBack",
-          function () {
-            $("#follow-button").text("+ Follow");
-            $("#follow-button").css("color", "#3399FF");
-            $("#follow-button").css("background-color", "#ffffff");
-            $("#follow-button").css("border-color", "#3399FF");
-          }
-        );
-      }
+                // then now we want the button to expand out to it's full state
+                // The left translation is to keep the button centred with it's longer width
+                $("#follow-button").animate({ width: '+=45px', left: '-=15px' }, 600, 'easeInOutBack', function () {
+                    $("#follow-button").css("color", "#fff");
+                    $("#follow-button").text("Following");
+
+                    // Animate the background transition from white to green. Using JQuery Color
+                    $("#follow-button").animate({
+                        backgroundColor: "#2EB82E",
+                        borderColor: "#2EB82E"
+                    }, 1000);
+                });
+            } else {
+
+                // *** State Change: Unfollow ***     
+                // Change the button back to it's original state
+                $("#follow-button").animate({ width: '-=25px', left: '+=15px' }, 600, 'easeInOutBack', function () {
+                    $("#follow-button").text("+ Follow");
+                    $("#follow-button").css("color", "#3399FF");
+                    $("#follow-button").css("background-color", "#ffffff");
+                    $("#follow-button").css("border-color", "#3399FF");
+                });
+            }
+        });
     });
-  });
 </script>
 {% endblock %}

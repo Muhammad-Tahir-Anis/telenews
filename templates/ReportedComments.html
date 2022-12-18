@@ -114,13 +114,48 @@
                                         </td>
                                         <td>{{ comment.reason}}</td>
                                         <td>{{ comment.post.poster.username }}</td>
-                                        <td>
+                                        <td class="d-flex">
                                             <a href="{{ url_for('news_summary') }}" class="view" title="View Comment"
                                                 data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
-                                            <a href="#" class="edit" title="Write Note" data-toggle="tooltip"><i
-                                                    class="material-icons">&#xE254;</i></a>
+                                            <form
+                                                action="{{ url_for('writenote', id = comment.post.poster.username, current_url = request.path) }}"
+                                                method="post">
+                                                <!-- Button trigger modal -->
+                                                <a href="" class="edit" title="Write Note" data-toggle="modal"
+                                                    data-target="#replyModal">
+                                                    <i class="material-icons">&#xE254;</i>
+                                                </a>
 
-                                            <a href="{{ url_for('delete_comment', post_id=comment.post.id) }}" class="delete" title="Delete Comment" data-toggle="tooltip"><i
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="replyModal" tabindex="-1"
+                                                    aria-labelledby="replyModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="replyModalLabel">Note</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body flex-col">
+                                                                {{ note_form.note(class="m-1 form-control
+                                                                form-control-lg", placeholder=note_form.note.label.text)
+                                                                }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                                {{ note_form.submit(class="btn btn-primary")}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <a href="{{ url_for('delete_comment', post_id=comment.post.id) }}"
+                                                class="delete" title="Delete Comment" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>

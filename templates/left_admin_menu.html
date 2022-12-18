@@ -1,8 +1,10 @@
 <div class="iconbar" style="background-color: white;">
-        <a href="index.html"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;"
+        <a href="/"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;"
                         tooltip-glyph="glyph-tooltip-demo" data-original-title="Home"></a>
         <a href="/Admindashboard"><span class="glyphicon glyphicon glyphicon-th-large icon-size"
                         tooltip-glyph="glyph-tooltip-demo" data-original-title="Dashboard"></span></a><br>
+        <a href="/AdminarticleDetails"><span class="glyphicon glyphicon-th-list icon-size"
+                        tooltip-glyph="glyph-tooltip-demo" data-original-title="Articles"></span></a><br>
         <a href="/Adminnotification"><span class="glyphicon glyphicon-bell icon-size" tooltip-glyph="glyph-tooltip-demo"
                         data-original-title="Notifications"></span></a><br>
         <a href="/onlinestatus"><span class="glyphicon glyphicon glyphicon-dashboard icon-size"
@@ -13,7 +15,7 @@
                         data-original-title="Reported_News"></span></a><br>
         <a href="/reportedComments"><span class="glyphicon glyphicon glyphicon-comment icon-size"
                         tooltip-glyph="glyph-tooltip-demo" data-original-title="Reported_Comments"></span></a><br>
-        
+
         <div class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="user-action"><img class="profile-pic"
                                 src="/{{current_user.id}}"></a>
@@ -22,7 +24,8 @@
                         <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a><br>
                         <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a><br>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                        <a href="{{ url_for('logout', userid = current_user.id)}}" class="dropdown-item"><i
+                                        class="fa fa-power-off"></i> Logout</a>
                 </div>
         </div>
 </div>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Upload_Articles_Detail</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <!-- for table -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- for navbar -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+
+
+
+    <style>
+        body {
+            color: #566787;
+            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <!-- for tooltip -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
+                placement: 'right'
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <section class="GContent" style="background-color: #f2f3f4">
+        {% include 'left_admin_menu.html' %}
+        <!-- **********end -->
+        <!-- *********************************************************************** all Activity show here   -->
+        <div class="G1" style="width: 94%;">
+
+            <div class="Gformat" style="width: 100%;">
+                <!-- start  -->
+                <div class="container-xl">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <h2 style="color: white">Journalist Articles <b>Detail</b></h2>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i>
+                                            <span>Export to Excel</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Publish Date</th>
+                                        <th>Title</th>
+                                        <th style="width: 15%;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for article in news %}
+                                    <tr>
+                                        <td>{{article.id}}</td>
+                                        <td><a href="#"><i class="fa fa-user-circle" aria-hidden="true"
+                                                    style="font-size: 30px;"></i>{{article.article.poster.username}}</a>
+                                        </td>
+                                        <td>{{article.article.created_at}}</td>
+                                        <td>{{article.title}}</td>
+                                        <td class="d-flex">
+                                            <a href="{{ url_for('summary_view', news_id=article.id) }}" class="view"
+                                                title="View Article" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE417;</i></a>
+
+                                            <form action="{{ url_for('writenote', id = article.article.poster.id, current_url = request.path) }}" method="post">
+                                                <!-- Button trigger modal -->
+                                                <a href="" class="edit" title="Write Note" data-toggle="modal" data-target="#replyModal">
+                                                    <i class="material-icons">&#xE254;</i>
+                                                </a>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade"
+                                                    id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="replyModalLabel">Note</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-body flex-col">
+                                                                {{ note_form.note(class="m-1 form-control form-control-lg", placeholder=note_form.note.label.text) }}
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                                {{ note_form.submit(class="btn btn-primary")}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+
+                                            <a href="{{ url_for('delete_news', post_id = article.article.id)}}"
+                                                class="delete" title="Delete Article" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE5C9;</i></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end  -->
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

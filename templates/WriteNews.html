@@ -1,56 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <title>Write_News</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" type="text/css" href="/static/style.css" />
-  <!-- for vertical navbar & tooltip -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-  <!-- for tooltip -->
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('[tooltip-glyph="glyph-tooltip-demo"]').tooltip({
-        placement: "right",
-      });
-    });
-  </script>
-</head>
-
-<body>
-
-
+{% extends 'base.html'%}
+{% block main %}
   <section class="GContent">
-    <div class="iconbar">
-      <a href="index.html"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Home" /></a>
-      <a href="/newsSummary"><span class="glyphicon glyphicon-globe icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="News"></span></a><br />
-      <a href="/notifications"><span class="glyphicon glyphicon-bell icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="Notifications"></span></a><br />
-      <a href="/list"><span class="glyphicon glyphicon-bookmark icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="List"></span></a><br />
-      <a href="/yournewsarticles"><span class="glyphicon glyphicon-list-alt icon-size"
-          tooltip-glyph="glyph-tooltip-demo" data-original-title="Your_News"></span></a><br />
-      <hr />
-      <a href="/writenews"><span class="glyphicon glyphicon-pencil icon-size" tooltip-glyph="glyph-tooltip-demo"
-          data-original-title="Write"></span></a><br />
-      <img class="profile-pic" src="/static/Images/profile3.jpeg" />
-    </div>
+    {% include 'left_user_menu.html' %}
     <div class="G1">
       <form method="post" , action="{{ url_for('write_news') }}", enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="writeNews">
           <!-- <a style="cursor: pointer;" href="/generalistNews"><img class="R1" src="/static/Images/logo.png"></a> -->
           <img class="R3" src="/{{current_user.id}}" />
-          <p class="R2">Draft in {{current_user.username}}</p>
           <!-- <button class="button button2">Save</button> -->
-          <button class="button button2" type="submit">Publish</button>
+          {{ news_form.publish(class="btn btn-primary button button2 rounded-pill")}}
+          {{ news_form.draft(class="btn btn-primary button button2 rounded-pill")}}
 
           <br /><br />
           <hr style="border-color: #dc1c13; box-shadow: 2px" />
@@ -82,6 +42,4 @@
     </div>
 
   </section>
-</body>
-
-</html>
+  {% endblock %}

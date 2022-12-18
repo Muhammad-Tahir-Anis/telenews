@@ -60,33 +60,7 @@
 
 <body>
     <section class="GContent" style="background-color: #f2f3f4">
-        <div class="iconbar" style="background-color: white;">
-            <a href="index.html"><img class="logo" src="/static/Images/navbarLogo.png" style="cursor: pointer;"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Home"></a>
-            <a href="/Admindashboard"><span class="glyphicon glyphicon glyphicon-th-large icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Dashboard"></span></a><br>
-            <a href="/Adminnotification"><span class="glyphicon glyphicon-bell icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Notifications"></span></a><br>
-            <a href="/onlinestatus"><span class="glyphicon glyphicon glyphicon-dashboard icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Online_Status"></span></a><br>
-            <a href="/Accountdetails"><span class="glyphicon glyphicon glyphicon-stats icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Registeration_Record"></span></a><br>
-            <a href="/reportednews"><span class="glyphicon glyphicon-list-alt icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Reported_News"></span></a><br>
-            <a href="/reportedComments"><span class="glyphicon glyphicon glyphicon-comment icon-size"
-                    tooltip-glyph="glyph-tooltip-demo" data-original-title="Reported_Comments"></span></a><br>
-            <div class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link  user-action"><img class="profile-pic"
-                        src="/static/Images/profile3.jpeg"></a>
-                <div class="dropdown-menu"
-                    style="margin-left: 2%; padding: 20%; margin-bottom: -50%; margin-right: 0px; ">
-                    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a><br>
-                    <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a><br>
-                    <div class="dropdown-divider"></div>
-                    <a href="/logout" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
-                </div>
-            </div>
-        </div>
+        {% include 'left_admin_menu.html' %}
         <!-- **********end -->
         <!-- *********************************************************************** all Activity show here   -->
         <div class="G1" style="width: 94%;">
@@ -155,7 +129,7 @@
                                         <td>{{user.id}}</td>
                                         <td><a href="#"><i class="fa fa-user-circle" aria-hidden="true"
                                                     style="font-size: 30px;"></i> {{user.username}}</a></td>
-                                        <td>Reader</td>
+                                        <td>{{user.role}}</td>
                                         <td><span class="status text-success">&bull;</span> {{user.status}}</td>
                                         <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i
                                                     class="material-icons">&#xE5C8;</i></a></td>

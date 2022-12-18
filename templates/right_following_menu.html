@@ -1,59 +1,42 @@
 <div class="G2" style="width: 30%; padding: 0 3px; margin-top:0px;margin-left: 70%; ">
     <div class="G21" style="width: 90%; padding: 5%;">
         <div class="form-outline">
-            <input style="width: 80%;  height: 40px;border-radius: 30px;margin-left: 42px; margin-bottom: 10%;"
-                type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" />
+            <form action="{{ url_for('yournews_articles') }}" , method="post">
+                {% if form %}
+                <div class="form-group d-flex align-items-center">
+                    {{ form.search(style = "width: 80%;  height: 40px;border-radius: 30px;margin-left: 42px; margin-bottom: 10%;", placeholder=
+                    form.search.label.text) }}
+                    <!-- {{ form.submit(class = "btn btn-secondary form-control h-25 w-25 align-self-center") }} -->
+                </div>
+                {% endif %}
+            </form>
+            <!-- <input style="width: 80%;  height: 40px;border-radius: 30px;margin-left: 42px; margin-bottom: 10%;"
+                type="search" id="form1" class="form-control" placeholder="Search" aria-label="Search" /> -->
         </div>
         <img class="profilePic" src="/{{current_user.id}}">
         <h5 class="profilename">{{current_user.username}}</h5>
-        <a style="text-align: center;margin-bottom: -2px;" href="/editprofile">Edit profile</a>
+        <a style="text-align: center;margin-bottom: -2px;" href="{{ url_for('edit_profile', user_id = current_user.id)}}">Edit profile</a>
         <hr>
         <h4>Following</h4>
+        {% for user in following %}
         <div class="followingList">
-            <img src="/static/Images/p1.jpg">
-            <p>Zoya Ali</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
+            <img src="/{{user.id}}">
+            <p>{{user.username}}</p>
         </div>
         <br><br>
-        <div class="followingList">
-            <img src="/static/Images/p2.jpg">
-            <p>Sad Raza</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
-        </div>
-        <br><br>
-        <div class="followingList">
-            <img src="/static/Images/profile1.jpg">
-            <p>Sania Rana</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
-        </div><br><br>
-        <a style="margin-left: 19px; float: left;" href="/followerlist">See All(4)</a><br>
+        {% endfor %}
+        <a style="margin-left: 19px; float: left;" href="/followerlist">See All</a><br>
 
         <hr>
         <h4>Followers</h4>
+        {% for user in follow %}
         <div class="followingList">
-            <img src="/static/Images/p1.jpg">
-            <p>Zoya Ali</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
+            <img src="/{{user.id}}">
+            <p>{{user.username}}</p>
         </div>
         <br><br>
-        <div class="followingList">
-            <img src="/static/Images/p2.jpg">
-            <p>Sad Raza</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
-        </div>
-        <br><br>
-        <div class="followingList">
-            <img src="/static/Images/profile1.jpg">
-            <p>Sania Rana</p>
-            <a href="#" style="font-size: 12px;" data-tooltip="Account Security"><i
-                    class="fa fa-fw fa-ellipsis-h"></i></a>
-        </div><br><br>
-        <a style="margin-left: 19px; float: left;" href="/followerlist">See All(6)</a>
+        {% endfor %}
+        <a style="margin-left: 19px; float: left;" href="/followerlist">See All</a>
         <br><br><br>
         <p style="color: gray;text-align: left;margin-bottom: 20px; font-size: 12px;">Search Help Status Writers News
             Careers Privacy Terms About Knowable</p>

@@ -44,13 +44,15 @@ class News(db.Model):
     category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
     image = Column(BLOB, nullable=False)
     mimetype = Column(String, nullable=False)
-
+    views = Column(Integer, nullable=False)
+    published = Column(Boolean, nullable = False)
     commented_news = db.relationship('Comments', backref = backref('commented_news'), cascade = 'all, delete')
 
 class Comments(db.Model):
     id = Column(Integer, primary_key = True)
     post_id = Column(Integer, ForeignKey('posts.id'), nullable = False)
     news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
+    is_reply = Column(Boolean, nullable = False)
 
 class Types(db.Model):
     id = Column(Integer, primary_key = True)
@@ -86,14 +88,18 @@ class Bookmarks(db.Model):
     id = Column(Integer, primary_key = True)
     bookmarker_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
-
-    news = db.relationship('News', backref=db.backref('news', uselist=False), cascade = 'all, delete')
+    news = db.relationship('News', backref=db.backref('news'))
 
 class Notifications(db.Model):
     id = Column(Integer, primary_key = True)
     notifier_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     activity = Column(String, nullable = False)
     link = Column(String, nullable = True)
+    created_at = Column(DateTime, server_default = func.now(), nullable=False)
+
+class History(db.Model):
+    id = Column(Integer, primary_key = True)
+    news_id = Column(Integer, ForeignKey('news.id'), nullable = False)
     created_at = Column(DateTime, server_default = func.now(), nullable=False)
 
 class Analytics(db.Model):

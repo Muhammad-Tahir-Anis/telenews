@@ -2,11 +2,11 @@
 from io import BytesIO
 import os
 from flask import Flask, render_template, request, redirect, url_for, Response, flash, session
-from models import Analytics, Bookmarks, Comments, Followers, Notifications, Posts, Reports, Types, db, News, Users
+from models import Analytics, Bookmarks, Comments, Followers, History, Notifications, Posts, Reports, Types, db, News, Users
 from flask_wtf.csrf import CSRFProtect
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 
-from webforms import LoginForm, Search, SignUpForm, WriteNewsForm, WritePost
+from webforms import DraftForm, EditForm, LoginForm, NoteForm, ReplyForm, ReportForm, Search, SignUpForm, WriteNewsForm, WritePost
 
 from flask_statistics import Statistics
 
@@ -74,7 +74,7 @@ def logout(userid):
         print(current_user.is_active)
     signin = LoginForm()
     signup = SignUpForm()
-    return render_template("index.html",  signin = signin, signup = signup)
+    return redirect('/')
 
 
 @app.route("/signup", methods=['GET', 'POST'])
@@ -85,7 +85,6 @@ def signup():
         username = request.form['username']
         email = request.form['email']
         role = request.form['role']
-        # role = 'admin'
         password = request.form['password']
         profile = request.files['profile']
         image_data = profile.read()
@@ -102,7 +101,7 @@ def signup():
             db.session.add(notification)
             db.session.commit()
 
-    return render_template("index.html", signup = signup, signin = signin)
+    return redirect('/')
 
 
 @app.route('/login', methods = ['GET', 'POST'])
@@ -127,12 +126,11 @@ def login():
                 notification = Notifications(notifier_id = current_user.id, activity = f"{current_user.username} logged in!")
                 db.session.add(notification)
                 db.session.commit()
-                return render_template('Notifications.html')
+                return redirect('/')
         else:
-            flash('You are loged in')
-            return render_template('index.html', signin = signin, signup = signup)
+            return redirect('/')
     else:
-        return render_template('index.html', signin = signin, signup = signup)
+        return redirect('/')
 
 @app.route('/<int:id>')
 def get_profile(id):
@@ -143,6 +141,7 @@ def get_profile(id):
     return Response(user.profile_pic, mimetype=user.mimetype)
 
 @app.route('/delete_acctount/<user_id>')
+@login_required
 def delete_account(user_id):
     user = Users.query.get(user_id)
     message = f"You have deleted user: {user.username}"
@@ -151,15 +150,60 @@ def delete_account(user_id):
     db.session.commit()
     db.session.delete(user)
     db.session.commit()
-    return redirect('/Accountdetails')
+    if current_user.role == 'admin':
+        return redirect('/Accountdetails')
+    else:
+        return redirect('/')
+
+@app.route('/updateprofile/<user_id>', methods = ['GET','POST'])
+def update_profile(user_id):
+    print("UPDATE")
+    form = EditForm()
+    if form.validate_on_submit():
+        user = Users.query.get(user_id)
+        old_password = request.form['old_password']
+        if user.password == old_password:
+            username = request.form['username']
+            email = request.form['email']
+
+            email_exists = Users.query.filter(Users.email == email, Users.id != user.id).first()
+            if email_exists:
+                flash('email already registered')
+                return redirect(f'/editprofile/{user_id}')
+            else:
+                password = request.form['confirm_passowrd']
+                profile = request.files['profile']
+                print('profile')
+                if profile:
+                    image_data = profile.read()
+                    mimetype = profile.mimetype
+                    user.profile_pic = image_data
+                    user.mimetype = mimetype
+                status = False
+                user.username = username
+                user.email = email
+                user.password = password
+                user.status = status
+                db.session.update(user)
+                db.session.commit()
+                return redirect('/')
+        else:
+            flash('Old password is not correct')
+            return redirect(f'/editprofile/{user_id}')
+    else:
+        return redirect(f'/editprofile/{user_id}')
+        # message = f"{username}, You are Welcome to Telenews!"
+        # user = Users.query.filter_by(username = username, password = password).first()
 
 @app.route('/onlinestatus')
+@login_required
 def get_online_users():
     print(current_user.is_active)
     users = Users.query.order_by(Users.id.desc()).all()
     return render_template("OnlineStatus.html", users = users)
 
 @app.route('/bookmark/<news_id>')
+@login_required
 def bookmark(news_id):
     news = News.query.get(int(news_id))
     if news:
@@ -172,17 +216,16 @@ def bookmark(news_id):
             db.session.add(bookmark)
             db.session.add(notification)
             
-            db.session.commit()            
+            db.session.commit()          
             flash('news bookmarked!')
         else:
             flash('already bookmarked!')
-            print("already bookmarked")
     else:
         flash('news not found!')
-    return redirect('/newsSummary')
-
+    return redirect('/generalistNews')
 
 @app.route('/unbookmark/<bookmark_id>')
+@login_required
 def unbookmark(bookmark_id):
     bookmark = Bookmarks.query.get(bookmark_id)
     message = f"You Unbookmarked news: {bookmark.news.title}"
@@ -192,12 +235,39 @@ def unbookmark(bookmark_id):
     db.session.commit()
     return redirect('/list')
 
+@app.route('/update_history/<news_id>/<url>')
+def method_name(news_id, url):
+    history = History.query.filter_by(news_id = news_id).first()
+    if history:
+        db.session.delete(history)
+        db.session.add(history)
+    else:
+        db.session.add(history)
+    db.session.commit()
+    return redirect(f'/{url}')
 
 @app.route("/list")
+@login_required
 def list_news():
+    users = Users.query.filter(Users.role == 'journalist', Users.id != current_user.id).all()
+    followers = Followers.query.filter_by(follow_by = current_user.id).all()
+    follow_users = []
+    following_users = []
+    if followers:
+        for follow in followers:
+            following_users.append(Users.query.filter_by(id = follow.follow_to).first())
+        for user in users:
+            if user not in following_users:
+                follow_users.append(user)
+        print(following_users)
+    else:
+        follow_users = users
     bookmarks = Bookmarks.query.order_by().all()
-    return render_template("List.html", bookmarks = bookmarks)
-
+    history = History.query.order_by(History.id.desc()).all()
+    history_list = []
+    for data in history:
+        history_list.append([News.query.filter_by(id = data.news_id).first(), data])
+    return render_template("List.html", bookmarks = bookmarks, history_list = history_list, follow = follow_users, following = following_users)
 
 @app.route("/Accountdetails")
 @login_required
@@ -207,29 +277,58 @@ def Account_details():
     users = Users.query.order_by(Users.id.desc()).all()
     return render_template("AccountDetails.html", users = users, signup = signup, signin = signin)
 
-
 @app.route("/Admindashboard")
+@login_required
 def Admin_dashboard():
     return render_template("AdminDashboard.html")
 
 
 @app.route("/Adminnotification")
+@login_required
 def Admin_notification():
-    news = News.query.order_by(News.id.desc()).all()
-    return render_template("AdminNotification.html", news = news)
+    notifications = Notifications.query.filter_by(notifier_id = current_user.id).all()
+    notifications.reverse()
+    return render_template("AdminNotification.html", notifications = notifications)
 
+@app.route("/AdminarticleDetails")
+@login_required
+def Admin_article_details():
+    note_form = NoteForm()
+    news = News.query.filter_by(published = True).order_by(News.id.desc()).all()
+    return render_template("AdminArticleDetails.html", news = news, note_form = note_form)
+
+@app.route('/writenote/<id>/<current_url>', methods = ['GET', 'POST'])
+def writenote(id, current_url):
+    note_form = NoteForm()
+    if note_form.validate_on_submit():
+        note = request.form['note']
+        message = f'note: {note}'
+        send_note_notifi = Notifications(notifier_id = id, activity = message)
+        user = Users.query.filter_by(id = id).first()
+        message = f'You sent a note to {user.username}'
+        notification = Notifications(notifier_id = current_user.id, activity = message)
+        db.session.add(send_note_notifi)
+        db.session.add(notification)
+        db.session.commit()
+        print(current_url)
+    return redirect(f'/{current_url}')
 
 @app.route("/articleView")
+@login_required
 def article_view():
     return render_template("ArticleView.html")
-    # return "<p>Hello, World666666666666!</p>"
 
 
-@app.route("/editprofile")
-def edit_profile():
-    return render_template("EditProfile.html")
+@app.route("/editprofile/<user_id>", methods = ['GET', 'POST'])
+@login_required
+def edit_profile(user_id):
+    edit_form = EditForm()
+    user = Users.query.get(user_id)
+    print(user)
+    return render_template("EditProfile.html", edit_form = edit_form, user = user)
 
 @app.route('/follow/<user_id>')
+@login_required
 def follow(user_id):
     user = Users.query.filter_by(id = user_id).first()
     follow_to = user.id
@@ -243,16 +342,18 @@ def follow(user_id):
     return redirect("/followerlist")
 
 @app.route('/unfollow/<user_id>')
+@login_required
 def unfollow(user_id):
     follow = Followers.query.filter_by(follow_by = current_user.id, follow_to = user_id).first()
     db.session.delete(follow)
     db.session.commit()
     return redirect('/followerlist')
-    
+
 
 @app.route("/followerlist")
+@login_required
 def follower_list():
-    users = Users.query.filter_by(role = 'journalist').all()
+    users = Users.query.filter(Users.role == 'journalist', Users.id != current_user.id).all()
     followers = Followers.query.filter_by(follow_by = current_user.id).all()
     follow_users = []
     following_users = []
@@ -268,35 +369,48 @@ def follower_list():
     print(follow_users, following_users)
     return render_template("FollowerList.html", follow = follow_users, following = following_users)
 
-@app.route("/generalistNews")
-def generalist_news():
-    return render_template("GeneralistNews.html")
-
-
-@app.route("/newsSummary", methods = ['GET', 'POST'])
+@app.route("/newsSummary")
+@login_required
 def news_summary():
-    form = Search()
-    if form.validate_on_submit():
+    popular_news = News.query.filter(News.published == True).order_by(News.views.desc()).all()
+    return render_template("NewsSummary.html", popular_news = popular_news)
+
+
+@app.route("/generalistNews", methods = ['GET', 'POST'])
+@login_required
+def generalist_news():
+    report_form = ReportForm()
+    reply_form = ReplyForm()
+    search_form = Search()
+    if search_form.validate_on_submit():
         searched = request.form['search']
-        news = News.query.filter(News.title.like('%' + searched + '%'))
+        news = News.query.filter(News.title.like('%' + searched + '%', News.published == True))
     else:
-        news = News.query.order_by(News.id.desc()).all()
+        news = News.query.filter_by(published = True).order_by(News.id.desc()).all()
     comments = Comments.query.order_by(Comments.id.desc()).all()
-    # comments = Comments.query.order_by(Comments.timestamp.desc()).all()
-    return render_template("NewsSummary.html", news=news, comments = comments, form = form)
+    replys = []
+    for comment in comments:
+        reply = Comments.query.filter_by(news_id = comment.id).all()
+        for data in reply:
+            replys.append(data)
+    print(replys)
+    popular_news = News.query.filter(News.published == True).order_by(News.views.desc()).all()
+    return render_template("GeneralistNews.html", news_list=news, comments = comments, report_form = report_form, search_form = search_form, popular_news = popular_news, reply_form = reply_form, replys = replys )
+
 
 @app.route("/add_comment/<news_id>", methods=['GET', 'POST'])
+@login_required
 def add_comment(news_id):
     type = Types.query.filter_by(name = "comment").first()
     description = request.form['comment_area']
     post = Posts(poster_id = current_user.id, type_id = type.id, description = description)
     db.session.add(post)
     db.session.commit()
-    
+
     post = Posts.query.filter_by(poster_id = current_user.id, type_id = type.id).all()
     post = post[len(post)-1]
     news = News.query.filter_by(id = news_id).first()
-    comment = Comments(post_id = post.id, news_id = news.id)   
+    comment = Comments(post_id = post.id, news_id = news.id, is_reply = False)   
 
     message = f"{current_user.username}, you just commented on {news.article.poster.username}'s news"
     notification = Notifications(notifier_id = current_user.id, activity = message)
@@ -305,21 +419,23 @@ def add_comment(news_id):
     db.session.add(notification)
 
     db.session.commit()
-    return redirect('/newsSummary')
+    return redirect('/generalistNews')
 
 @app.route('/delete_comment/<post_id>')
+@login_required
 def delete_comment(post_id):
     post = Posts.query.filter_by(id = post_id).first()
     comment = Comments.query.filter_by(comment_post = post).first()
     message = f'Your comment on post {comment.commented_news.title} deleted!'
     notification = Notifications(notifier_id = post.poster.id, activity = message)
-    
+
     db.session.delete(post)
     db.session.add(notification)
     db.session.commit()
-    return redirect('/newsSummary')
+    return redirect('/generalistNews')
 
 @app.route('/delete_news/<post_id>')
+@login_required
 def delete_news(post_id):
     print(post_id)
     post = Posts.query.filter_by(id = post_id).first()
@@ -331,108 +447,116 @@ def delete_news(post_id):
     db.session.delete(post)
     db.session.add(notifications)
     db.session.commit()
-    return redirect('/Adminnotification')
+    if current_user.role == 'admin':
+        return redirect('/Adminnotification')
+    else:
+        return redirect('/generalistNews')
 
-@app.route('/report_comment/<comment_id>')
+@app.route('/report_comment/<comment_id>', methods = ['GET', 'POST'])
+@login_required
 def report_comment(comment_id):
-    comment = Comments.query.filter_by(id = comment_id).first()
-    report = Reports(reporter_id = current_user.id, post_id = comment.comment_post.id, reason = "None")
-    message = f'Your comment on post {comment.commented_news.title} is reported!'
-    notification = Notifications(notifier_id = current_user.id, activity = message)
-    
-    db.session.add(report)
-    db.session.add(notification)
-    db.session.commit()
-    return redirect('/newsSummary')
+    report_form = ReportForm()
+    if report_form.validate_on_submit():
+        reason = request.form['reason']
+        comment = Comments.query.filter_by(id = comment_id).first()
+        report = Reports(reporter_id = current_user.id, post_id = comment.comment_post.id, reason = reason)
+        message = f'Your comment on post {comment.commented_news.title} is reported!'
+        notification = Notifications(notifier_id = comment.comment_post.poster.id, activity = message)
+        
+        db.session.add(report)
+        db.session.add(notification)
+        db.session.commit()
+    return redirect('/generalistNews')
 
-# @app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
-# def add_comment_reply(news_id, refer=True):
-#     parent_id = request.args.get('parent_id')
-#     if request.method == 'POST':
-#         reply = Comments(
-#             news_id=news_id, parent_id=parent_id, text=request.form['comment_area'])
-
-#         db.session.add(reply)
-#         db.session.commit()
-#         if refer:
-#             return redirect(url_for('summary_view', news_id=news_id))
-#         else:
-#             return redirect(request.referrer)
-#         # flash("Your comment has been added. Welcome!")
-#     return render_template('AddReplyToPost.html', parent_id=parent_id, news_id=news_id)
-
-
-# @app.route("/comment/<int:news_id>/", methods=["GET", 'POST'])
-# def add_comment(news_id):
-#     if request.method == 'POST':
-#         reply = Comments(
-
-#             news_id=news_id, text=request.form['comment_area'])
-
-#         db.session.add(reply)
-#         db.session.commit()
-#         # flash("Your comment has been added. Welcome!")
-#     print(request.referrer, 'G')
-#     return redirect(request.referrer)
-
-#     # return render_template("news/add_comments.html", news_id=news_id, parent_id=parent_id)
-
-
-# @app.route("/comment/delete/<int:comment_id>/", methods=["GET"])
-# def delete_comment(comment_id):
-#     reply = Comments.query.get(comment_id)
-#     db.session.delete(reply)
-#     db.session.commit()
-#     # flash("Your comment has been added. Welcome!")
-#     return redirect(request.referrer)
+@app.route('/reportnews/<news_id>', methods = ['GET', 'POST'])
+@login_required
+def report_news(news_id):
+    report_form = ReportForm()
+    if report_form.validate_on_submit():
+        news = News.query.filter_by(id = news_id).first()
+        report = Reports.query.filter_by(reporter_id = current_user.id, post_id = news.article.id).first()
+        if not report:
+            report = Reports(reporter_id = current_user.id, post_id = news.article.id, reason = request.form['reason'])
+            message = f'Your news {news.title} is reported!'
+            notification = Notifications(notifier_id = news.article.poster.id, activity = message)
+            db.session.add(report)
+        else:
+            message = f'You have already reported {news.title} news!'
+            notification = Notifications(notifier_id = current_user.id, activity = message)
+        
+        db.session.add(notification)
+        db.session.commit()
+    return redirect(f'/summaryview/{news.id}')
 
 
 @app.route("/news/delete/<int:news_id>/", methods=["GET"])
+@login_required
 def delete_post(news_id):
     news = News.query.get(news_id)
     post = news.article
     message = f'Your news article is deleted'
     notification = Notifications(notifier_id = current_user.id, activity = message)
     db.session.delete(post)
+    db.session.add(notification)
     db.session.commit()
     # flash("Your comment has been added. Welcome!")
     return redirect(url_for('news_summary'))
 
 
 @app.route("/notifications")
+@login_required
 def full_notifications():
+    users = Users.query.filter(Users.role == 'journalist', Users.id != current_user.id).all()
+    followers = Followers.query.filter_by(follow_by = current_user.id).all()
+    follow_users = []
+    following_users = []
+    if followers:
+        for follow in followers:
+            following_users.append(Users.query.filter_by(id = follow.follow_to).first())
+        for user in users:
+            if user not in following_users:
+                follow_users.append(user)
+    else:
+        follow_users = users
     notifications = Notifications.query.filter_by(notifier_id = current_user.id).all()
     notifications.reverse()
-    return render_template("Notifications.html", notifications = notifications)
+    return render_template("Notifications.html", notifications = notifications, follow = follow_users)
 
 
 @app.route("/reportedComments")
+@login_required
 def reported_comments():
+    note_form = NoteForm()
     reports = Reports.query.order_by(Reports.id.desc()).all()
     reported_comments = []
     for report in reports:
         if report.post.type.name == 'comment':
             reported_comments.append(report)
-    return render_template("ReportedComments.html", comments = reported_comments, edit = False)
+    return render_template("ReportedComments.html",note_form = note_form, comments = reported_comments, edit = False)
 
 
 @app.route("/reportednews")
+@login_required
 def reported_news():
+    note_form = NoteForm()
     reports = Reports.query.order_by(Reports.id.desc()).all()
     reported_news = []
     for report in reports:
         if report.post.type.name == 'news':
-            reported_news.append(report)
-    return render_template("ReportedNews.html", news = reported_news)
+            news = News.query.filter_by(post_id = report.post.id).first()
+            reported_news.append([news, report.reason])
+    return render_template("ReportedNews.html", news = reported_news, note_form = note_form)
 
 
 @app.route("/reportedcommmetsAdmin")
+@login_required
 def reported_commnets_admin():
     comments = Comments.query.filter_by(report=1)
     return render_template("ReportedCommentsAdmin.html", comments=comments)
 
 
 @app.route("/comment/report/<int:comment_id>")
+@login_required
 def add_report_comment(comment_id):
     comment = Comments.query.get(comment_id)
     comment.report = 1
@@ -440,30 +564,77 @@ def add_report_comment(comment_id):
     return redirect(request.referrer)
 
 @app.route('/news/<int:id>')
+@login_required
 def get_news_img(id):
     news = News.query.filter_by(id=id).first()
     if not news:
         return 'Img Not Found!', 404
-
     return Response(news.image, mimetype=news.mimetype)
 
 @app.route("/summaryview/<int:news_id>")
+@login_required
 def summary_view(news_id):
+    report_form = ReportForm()
+    reply_form = ReplyForm()
     news = News.query.get(news_id)
-    comments = Comments.query.filter_by(commented_news=news)
-    return render_template("SummaryView.html", news=news, comments=comments)
+    news.views+=1
+    db.session.add(news)
+    db.session.commit()
+    comments = Comments.query.filter_by(news_id=news.id, is_reply = False).all()
+    # reply_list = Comments.query.filter_by(is_reply = True).all()
+    replys = []
+    for comment in comments:
+        reply = Comments.query.filter_by(news_id = comment.id, is_reply = True).all()
+        for data in reply:
+            replys.append(data)
+    popular_news = News.query.filter(News.published == True).order_by(News.views.desc()).all()
 
+    history = History.query.filter_by(news_id = news_id).first()
+    print(history)
+    if history:
+        db.session.delete(history)
+        history = History(news_id = news_id)
+        db.session.add(history)
+    else:
+        history = History(news_id = news_id)
+        db.session.add(history)
+    db.session.commit()
+
+    return render_template("SummaryView.html", news=news, comments=comments, popular_news = popular_news, report_form = report_form, reply_form = reply_form, replys = replys)
+
+@app.route('/reply/<comment_id>/<news_id>', methods = ['GET', 'POST'])
+def reply(comment_id, news_id):
+    form = ReplyForm()
+    if form.validate_on_submit():
+        type = Types.query.filter_by(name = "reply").first()
+        description = request.form['description']
+        post = Posts(poster_id = current_user.id, type_id = type.id, description = description)
+        db.session.add(post)
+        db.session.commit()
+
+        post = Posts.query.filter_by(poster_id = current_user.id, type_id = type.id).all()
+        post = post[len(post)-1]
+        comment = Comments.query.filter_by(id = comment_id).first()
+        # news_id is basically post id. 
+        reply = Comments(post_id = post.id, news_id = comment.id, is_reply = True)   
+        news = News.query.filter_by(id = news_id).first()
+        message = f"{current_user.username}, you just replyed on {news.article.poster.username}'s news comment"
+        notification = Notifications(notifier_id = current_user.id, activity = message)
+
+        db.session.add(reply)
+        db.session.add(notification)
+
+        db.session.commit()
+
+    return redirect(f'/summaryview/{news_id}')
 
 @app.route("/writenews", methods=['GET', 'POST'])
+@login_required
 def write_news():
-    write_news_form = WriteNewsForm()
-    post = Posts.query.order_by().all()
-    last_post = post[len(post)-1]
-    print(last_post.id)
+    form = WriteNewsForm()
 
-    if request.method == 'POST':
+    if form.validate_on_submit():
         description = request.form['description']
-        poster_id = current_user.id
         type = Types.query.filter_by(name = "news").first()
         type_id = type.id
 
@@ -479,18 +650,86 @@ def write_news():
         post = Posts.query.order_by().all()
         last_post = post[len(post)-1]
 
-        news = News(post_id = last_post.id, title = title, category_id = 1, image = image_data, mimetype = mimetype)
+        if 'publish' in request.form.keys():
+            followers = Followers.query.filter_by(follow_to = current_user.id).all()
+            message = f'{current_user.username} is published {title} news!'
+            for follow in followers:
+                notification = Notifications(notifier_id = follow.follow_by, activity = message)
+                db.session.add(notification)
+            news = News(post_id = last_post.id, title = title, category_id = 1, image = image_data, mimetype = mimetype, views = 0, published = True)
+            message = f"Your News {title} is Successfully Published"
+
+        elif 'draft' in request.form.keys():
+            news = News(post_id = last_post.id, title = title, category_id = 1, image = image_data, mimetype = mimetype, views = 0, published = False)
+            message = f"Your News {title} is Draft"
+            
+        notification = Notifications(notifier_id = current_user.id, activity = message)
+        flash(message)
         db.session.add(news)
+        db.session.add(notification)
         db.session.commit()
         
-        flash("Your News is Successfully Published")
         return redirect("/writenews")
-    return render_template("WriteNews.html", news_form = write_news_form)
+    return render_template("WriteNews.html", news_form = form)
 
+@app.route('/writenews/<news_id>', methods=['GET', 'POST'])
+def view_draft(news_id):
+    print(news_id)
+    if request.method == 'GET':
+        news = News.query.filter_by(id = news_id).first()
+        print(news.id)
+        form = WriteNewsForm()
+        form.title.data = news.title
+        # form.image.mimetype = news.mimetype
+        form.description.data = news.article.description
+    return render_template('WriteNews.html', news_form = form)
+    
 
-@app.route("/yournewsarticles")
+@app.route("/yournewsarticles", methods = ['GET', 'POST'])
+@login_required
 def yournews_articles():
-    return render_template("YourNewsArticles.html")
+    form = Search()
+    draft_form = DraftForm()
+    responded_news = []
+
+    following = [following.follow_to for following in Followers.query.filter_by(follow_by = current_user.id).all()]
+    follower = [follower.follow_by for follower in Followers.query.filter_by(follow_to = current_user.id).all()]
+    followings = []
+    followers = []
+    searched_following = []
+    searched_followers = []
+    if form.validate_on_submit():
+        searched = request.form['search']
+        if following:
+            for user in following:
+                followings.append(Users.query.filter_by(id = user).first())
+            for user in followings:
+                if searched in user.username:
+                    searched_following.append(user)
+            followings = searched_following
+        if follower:
+            for user in follower:
+                followers.append(Users.query.filter_by(id = user).first())
+            for user in followers:
+                if searched in user.username:
+                    searched_followers.append(user)
+            followers = searched_followers
+    else:
+        if following:
+            for user in following:
+                followings.append(Users.query.filter_by(id = user).first())
+        if follower:
+            for user in follower:
+                followers.append(Users.query.filter_by(id = user).first())
+    published_news = News.query.filter_by(published = True).order_by(News.id.desc()).all()
+    draft_news = News.query.filter_by(published = False).order_by(News.id.desc()).all()
+    comments = Comments.query.filter_by(is_reply = False).order_by().all()
+    for comment in comments:
+        if comment.commented_news:
+            if comment.commented_news not in responded_news:
+                responded_news.append(comment.commented_news)
+    print(responded_news)
+    return render_template("YourNewsArticles.html", published_news = published_news, draft_news =draft_news, responded_news = responded_news, draft_form = draft_form, follower = followers, following = followings, form = form)
 
 
 if __name__ == '__main__':
