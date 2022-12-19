@@ -43,7 +43,7 @@
       <h2 style="color: white">Edit Profile</h2>
     </div>
     <!-- Form START -->
-    <form class="file-upload">
+    <form action="{{ url_for('edit_profile', user_id = user.id) }}" method="post"  enctype="multipart/form-data" class="file-upload">
       <!-- Upload profile -->
       <br>
       <div style="float: right; margin-right: 5%;">
@@ -98,14 +98,14 @@
       <!-- Row END -->
       <!-- button -->
       <div class="editbutton">
-        <a href="{{ url_for('update_profile', user_id = user.id)}}">
-          <!-- {{edit_form.update(class="btn btn-primary btn-lg buttonA1")}} -->
-          <button type="button" class="btn btn-primary btn-lg buttonA1">Update profile</button>
-        </a>
-        <a href="{{ url_for('delete_account', user_id = user.id) }}">
-          <!-- {{edit_form.delete(class="btn btn-danger btn-lg buttonN")}} -->
-          <button type="button" class="btn btn-danger btn-lg buttonN">Delete profile</button>
-        </a>
+        <!-- <a href="{{ url_for('update_profile', user_id = user.id)}}"> -->
+          {{edit_form.update(class="btn btn-primary btn-lg buttonA1")}}
+          <!-- <button type="button" class="btn btn-primary btn-lg buttonA1">Update profile</button> -->
+        <!-- </a> -->
+        <!-- <a href="{{ url_for('delete_account', user_id = user.id) }}"> -->
+          {{edit_form.delete(class="btn btn-danger btn-lg buttonN")}}
+          <!-- <button type="button" class="btn btn-danger btn-lg buttonN">Delete profile</button> -->
+        <!-- </a> -->
       </div>
       <br>
     </form> <!-- Form END -->

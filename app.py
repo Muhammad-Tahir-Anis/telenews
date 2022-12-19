@@ -2,11 +2,11 @@
 from io import BytesIO
 import os
 from flask import Flask, render_template, request, redirect, url_for, Response, flash, session
-from models import Analytics, Bookmarks, Comments, Followers, History, Notifications, Posts, Reports, Types, db, News, Users
+from models import Analytics, Bookmarks, Categories, Comments, Followers, History, Notifications, Posts, Reports, Types, db, News, Users
 from flask_wtf.csrf import CSRFProtect
 from flask_login import login_user, login_required, logout_user, LoginManager, current_user
 
-from webforms import DraftForm, EditForm, LoginForm, NoteForm, ReplyForm, ReportForm, Search, SignUpForm, WriteNewsForm, WritePost
+from webforms import ByCategoryForm, CatgoryForm, DraftForm, EditForm, LoginForm, NoteForm, OnlineStatusForm, ReplyForm, ReportForm, Search, SignUpForm, WriteNewsForm, WritePost
 
 from flask_statistics import Statistics
 
@@ -116,7 +116,6 @@ def login():
             user.status = True
             db.session.commit()
             session['username'] = user.username
-            flash('You are loged in')
             if current_user.role == 'admin':
                 notification = Notifications(notifier_id = current_user.id, activity = f"{current_user.username} logged in!")
                 db.session.add(notification)
@@ -157,9 +156,9 @@ def delete_account(user_id):
 
 @app.route('/updateprofile/<user_id>', methods = ['GET','POST'])
 def update_profile(user_id):
-    print("UPDATE")
     form = EditForm()
-    if form.validate_on_submit():
+    if request.method == 'GET':
+        print("UPDATE")
         user = Users.query.get(user_id)
         old_password = request.form['old_password']
         if user.password == old_password:
@@ -195,12 +194,26 @@ def update_profile(user_id):
         # message = f"{username}, You are Welcome to Telenews!"
         # user = Users.query.filter_by(username = username, password = password).first()
 
-@app.route('/onlinestatus')
+@app.route('/onlinestatus', methods = ['GET', 'POST'])
 @login_required
 def get_online_users():
-    print(current_user.is_active)
-    users = Users.query.order_by(Users.id.desc()).all()
-    return render_template("OnlineStatus.html", users = users)
+    status_form = OnlineStatusForm()
+    users = Users.query.order_by().all()
+    if status_form.validate_on_submit():
+        role = request.form['role']
+        if role == 'any':
+            users = Users.query.order_by().all()
+        else:
+            users = Users.query.filter_by(role = role).all()
+        
+        if status_form.search.data:
+            searched = request.form['search']
+            if role == 'any':
+                users = Users.query.filter(Users.username.like('%' + searched +'%')).all()
+            else:
+                users = Users.query.filter(Users.username.like('%' + searched +'%'), Users.role == role).all()
+
+    return render_template("OnlineStatus.html", users = users, status_form = status_form)
 
 @app.route('/bookmark/<news_id>')
 @login_required
@@ -269,6 +282,30 @@ def list_news():
         history_list.append([News.query.filter_by(id = data.news_id).first(), data])
     return render_template("List.html", bookmarks = bookmarks, history_list = history_list, follow = follow_users, following = following_users)
 
+@app.route('/addcategory', methods = ['GET', 'POST'])
+def add_category():
+    category_form = CatgoryForm()
+    if category_form.validate_on_submit():
+        name = request.form['category']
+        if not Categories.query.filter_by(name = name).first():
+            category = Categories(name = name)
+            db.session.add(category)
+            message = f'{current_user.username}! You added new {name} Category'
+            notification = Notifications(notifier_id = current_user.id, activity = message)
+            db.session.add(notification)
+            db.session.commit()
+    category_form.category.data = None
+    categories = Categories.query.order_by().all()
+    return render_template('AdminAddCategories.html',  categories = categories, category_form = category_form)
+
+@app.route('/deleteCategory/<id>')
+def delete_category(id):
+    category = Categories.query.get(id)
+    db.session.delete(category)
+    db.session.commit()
+    return redirect('/addcategory')
+    
+
 @app.route("/Accountdetails")
 @login_required
 def Account_details():
@@ -323,8 +360,56 @@ def article_view():
 @login_required
 def edit_profile(user_id):
     edit_form = EditForm()
+    if edit_form.validate_on_submit():
+        if edit_form.delete.data:
+            print('delete')
+            user = Users.query.get(user_id)
+            message = f"You have deleted user: {user.username}"
+            notification = Notifications(notifier_id = current_user.id, activity = message)
+            db.session.add(notification)
+            db.session.commit()
+            db.session.delete(user)
+            db.session.commit()
+            if current_user.role == 'admin':
+                return redirect('/Accountdetails')
+            else:
+                return redirect('/')
+        elif edit_form.update.data:
+            print('update')
+            user = Users.query.get(user_id)
+            old_password = request.form['old_password']
+            if user.password == old_password:
+                username = request.form['username']
+                email = request.form['email']
+
+                email_exists = Users.query.filter(Users.email == email, Users.id != user.id).first()
+                if email_exists:
+                    flash('email already registered')
+                    return redirect(f'/editprofile/{user_id}')
+                else:
+                    profile = request.files['profile']
+                    print('profile')
+                    if profile:
+                        image_data = profile.read()
+                        mimetype = profile.mimetype
+                        user.profile_pic = image_data
+                        user.mimetype = mimetype
+                    user.username = username
+                    user.email = email
+                    if edit_form.confirm_password.data:
+                        password = request.form['confirm_password']
+                        user.password = password
+                        status = False
+                        user.status = status
+                        db.session.commit()
+                        logout_user()
+
+                    db.session.commit()
+                    return redirect('/')
+            else:
+                flash('Old password is not correct')
+                return redirect(f'/editprofile/{user_id}')
     user = Users.query.get(user_id)
-    print(user)
     return render_template("EditProfile.html", edit_form = edit_form, user = user)
 
 @app.route('/follow/<user_id>')
@@ -381,10 +466,11 @@ def news_summary():
 def generalist_news():
     report_form = ReportForm()
     reply_form = ReplyForm()
+    category_form = ByCategoryForm()
     search_form = Search()
     if search_form.validate_on_submit():
         searched = request.form['search']
-        news = News.query.filter(News.title.like('%' + searched + '%', News.published == True))
+        news = News.query.filter((News.title.like('%' + searched + '%')), News.published == True)
     else:
         news = News.query.filter_by(published = True).order_by(News.id.desc()).all()
     comments = Comments.query.order_by(Comments.id.desc()).all()
@@ -395,8 +481,30 @@ def generalist_news():
             replys.append(data)
     print(replys)
     popular_news = News.query.filter(News.published == True).order_by(News.views.desc()).all()
-    return render_template("GeneralistNews.html", news_list=news, comments = comments, report_form = report_form, search_form = search_form, popular_news = popular_news, reply_form = reply_form, replys = replys )
+    categories = Categories.query.order_by()
+    return render_template("GeneralistNews.html", news_list=news, comments = comments, report_form = report_form, search_form = search_form, popular_news = popular_news, reply_form = reply_form, replys = replys, categories = categories, category_form = category_form )
 
+@app.route('/newsbycategory', methods = ['GET', 'POST'])
+@login_required
+def news_by_category():
+    report_form = ReportForm()
+    reply_form = ReplyForm()
+    search_form = Search()
+    category_form = ByCategoryForm()
+    if category_form.validate_on_submit():
+        name = request.form['submit']
+        category = Categories.query.filter_by(name = name).first()
+        news = News.query.filter_by(published = True, category_id = category.id).order_by(News.id.desc()).all()
+    comments = Comments.query.order_by(Comments.id.desc()).all()
+    replys = []
+    for comment in comments:
+        reply = Comments.query.filter_by(news_id = comment.id).all()
+        for data in reply:
+            replys.append(data)
+    print(replys)
+    popular_news = News.query.filter(News.published == True).order_by(News.views.desc()).all()
+    categories = Categories.query.order_by()
+    return render_template("GeneralistNews.html", news_list=news, comments = comments, report_form = report_form, search_form = search_form, popular_news = popular_news, reply_form = reply_form, replys = replys, categories = categories, category_form = category_form )
 
 @app.route("/add_comment/<news_id>", methods=['GET', 'POST'])
 @login_required
@@ -632,7 +740,8 @@ def reply(comment_id, news_id):
 @login_required
 def write_news():
     form = WriteNewsForm()
-
+    categories = Categories.query.order_by().all()
+    form.category.choices = [category.name for category in categories]
     if form.validate_on_submit():
         description = request.form['description']
         type = Types.query.filter_by(name = "news").first()
@@ -649,18 +758,19 @@ def write_news():
 
         post = Posts.query.order_by().all()
         last_post = post[len(post)-1]
-
+        category = request.form['category']
+        category = Categories.query.filter_by(name = category).first()
         if 'publish' in request.form.keys():
             followers = Followers.query.filter_by(follow_to = current_user.id).all()
             message = f'{current_user.username} is published {title} news!'
             for follow in followers:
                 notification = Notifications(notifier_id = follow.follow_by, activity = message)
                 db.session.add(notification)
-            news = News(post_id = last_post.id, title = title, category_id = 1, image = image_data, mimetype = mimetype, views = 0, published = True)
+            news = News(post_id = last_post.id, title = title, category_id = category.id, image = image_data, mimetype = mimetype, views = 0, published = True)
             message = f"Your News {title} is Successfully Published"
 
         elif 'draft' in request.form.keys():
-            news = News(post_id = last_post.id, title = title, category_id = 1, image = image_data, mimetype = mimetype, views = 0, published = False)
+            news = News(post_id = last_post.id, title = title, category_id = category.id, image = image_data, mimetype = mimetype, views = 0, published = False)
             message = f"Your News {title} is Draft"
             
         notification = Notifications(notifier_id = current_user.id, activity = message)
